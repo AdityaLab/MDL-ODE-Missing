@@ -5,6 +5,7 @@ import matplotlib.pyplot as plt
 import numpy as np
 import random
 import math
+import pandas
 
 if __name__ == "__main__":
     N = 25000
