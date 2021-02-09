@@ -9,6 +9,7 @@ import math
 import csv
 import subprocess
 import os
+import time
 
 def IntegerCost(x):
   Sum = math.log(2.865,2)+1
@@ -85,13 +86,20 @@ if __name__ == "__main__":
   ParameterP = [DataSelected["beta0est"].to_list()[0], DataSelected["alphaest"].to_list()[0], DataSelected["muest"].to_list()[0], DataSelected["deltaest"].to_list()[0]]
   ParameterP = np.array(ParameterP)
 
-  def MDL(D, ParameterP):
+  
+  def MDL(D, ParameterP,warm=False):
+        
+    if warm:
+      to_run = 'COVID_fit_read'
+    else:
+      to_run = 'COVID_fit'
 
     SumD = [0]*96
     SumD[0] = D[0]
     for counter in range(1,96):
       SumD[counter] = SumD[counter-1] + D[counter]
-    
+    print("Reading...",end=": ")
+    sys.stdout.flush() 
     with open('us-counties.txt','w') as WriteFile:
       with open('us-counties-source.txt','r') as ReadFile:
         Sentence = ReadFile.readline()
@@ -103,40 +111,72 @@ if __name__ == "__main__":
             print ("Error!")
           Sentence = Sentence[0:len(Sentence)-1] + ',' + str(int(SumD[counter]-ReportedSum[counter])) + '\n'
           WriteFile.write(Sentence)
-          
-    while(True):
+    print("Ended reading...",end=": ")
+    sys.stdout.flush()   
+    while_counter = 0
+    while(while_counter < 100):
       try:
-        subprocess.check_call("Rscript COVID_fit.R")
-
+        now = time.time()
+        print("Calibrating...",end=": ")
+        sys.stdout.flush() 
+        subprocess.call("Rscript {}.R".format(to_run), shell=True)
+      
+        print("Time: {}".format(time.time() - now))
+        sys.stdout.flush() 
+        while_counter += 1
+   
+        
         DataFile = pd.read_csv("result.csv")
         
         DataSelected = DataFile[(DataFile[".id"] == "median")]
         DataSelected = DataSelected["I_new_sympt"].tolist()
         ReportedPP = DataSelected[0:96]
         ReportedPP = np.array(ReportedPP)
-        
+           
+        print("Time 2: {}".format(time.time() - now))
+        sys.stdout.flush() 
+
         DataSelected = DataFile[(DataFile[".id"] == "median")]
         DataSelected = DataSelected["I_new_asympt"].tolist()
         UnreportedPP = DataSelected[0:96]
         UnreportedPP = np.array(UnreportedPP)
-      
+        
+        print("Time 3: {}".format(time.time() - now))
+        sys.stdout.flush() 
+
         DataFile = pd.read_csv("parameter.csv")
         DataSelected = DataFile[(DataFile["sim_start"] == "2020-01-26")]
         ParameterPP = [DataSelected["beta0est"].to_list()[0], DataSelected["alphaest"].to_list()[0], DataSelected["muest"].to_list()[0], DataSelected["deltaest"].to_list()[0]]
         ParameterPP = np.array(ParameterPP)
 
         ParameterPP[1] = 1.0 - ParameterPP[1]
+        
+        print("Time 4: {}".format(time.time() - now))
+        sys.stdout.flush() 
 
         ModelCost1 = VectorCost(ParameterP)
+        print("Time 5: {}".format(time.time() - now))
+        print("{} - {}".format(list(ParameterP), list(ParameterPP)))
+        sys.stdout.flush() 
         ModelCost2 = VectorCost(ParameterPP - ParameterP)
+        print("Time 6: {}".format(time.time() - now))
+        sys.stdout.flush()
         ModelCost3 = TimeSeriesCost(ParameterPP[1]*D - ReportedP)
+        print("Time 7: {}".format(time.time() - now))
+        sys.stdout.flush()
         DataCost = TimeSeriesCost(((D-Reported)/(1.0-ParameterPP[1]))-(ReportedPP+UnreportedPP))
+        print("Time 8: {}".format(time.time() - now))
+        sys.stdout.flush()
         MDLCost = ModelCost1 + ModelCost2 + ModelCost3 + DataCost
-
-        break
+        print("Time 9: {}".format(time.time() - now))
+        sys.stdout.flush()
+        
+        while_counter = 100
+      
       except:
         pass
-
+    print("OUT FOR LOOP Time: {}".format(time.time() - now))
+    sys.stdout.flush() 
     with open('D.txt','a+') as WriteFile:
       WriteFile.write(str(list(D)))
       WriteFile.write('\t')
@@ -145,7 +185,12 @@ if __name__ == "__main__":
 
     return MDLCost
 
-  def MDL_alpha(alpha, ParameterP):
+  def MDL_alpha(alpha, ParameterP,warm=False):
+    
+    if warm:
+      to_run = 'COVID_fit-read'
+    else:
+      to_run = 'COVID_fit'
     
     D = Reported / alpha
     
@@ -168,7 +213,7 @@ if __name__ == "__main__":
           
     while(True):
       try:
-        subprocess.check_call("Rscript COVID_fit.R")
+        subprocess.call("Rscript COVID-fit.R", shell=True)
 
         with open('result/result-'+str(alpha)+'.csv','w') as WriteFile:
           with open('result.csv','r') as ReadFile:
@@ -192,16 +237,16 @@ if __name__ == "__main__":
         
         DataSelected = DataFile[(DataFile[".id"] == "median")]
         DataSelected = DataSelected["I_new_sympt"].tolist()
-        ReportedPP = DataSelected[0:96]
+        ReportedPP = DataSelected[7:60]
         ReportedPP = np.array(ReportedPP)
         
         DataSelected = DataFile[(DataFile[".id"] == "median")]
         DataSelected = DataSelected["I_new_asympt"].tolist()
-        UnreportedPP = DataSelected[0:96]
+        UnreportedPP = DataSelected[7:60]
         UnreportedPP = np.array(UnreportedPP)
       
         DataFile = pd.read_csv("parameter.csv")
-        DataSelected = DataFile[(DataFile["sim_start"] == "2020-01-26")]
+        DataSelected = DataFile[(DataFile["sim_start"] == "2020-01-25")]
         ParameterPP = [DataSelected["beta0est"].to_list()[0], DataSelected["alphaest"].to_list()[0], DataSelected["muest"].to_list()[0], DataSelected["deltaest"].to_list()[0]]
         ParameterPP = np.array(ParameterPP)
 
@@ -234,11 +279,138 @@ if __name__ == "__main__":
       WriteFile.write('\n')
 
     return MDLCost
+    
+  def MDL_step2(D,D_start,ParameterP):
+      D_scaled = fix_magnitude(D,D_start)
+      cost =  MDL(D_scaled,ParameterP,True)
+      print("MDLCOST : {}".format(cost))
+      sys.stdout.flush()  
+      f= open("optimization_log.txt", "a+")
+      f.write("%d\r\n" % (cost))
+      D_write = list(D_scaled)
+      f.write(str(D_write))
+      f.write("\n")
+      f.close()
+      return cost
   
-  alpha_star = 0.10
-  D_start = np.copy(Reported) / alpha_star
 
-  res = minimize(fun=MDL, x0=D_start, args=(ParameterP), method='nelder-mead', options={'maxiter': 10, 'maxfev': 10, 'xatol': 1, 'fatol': 1})
-  D = res.x
+  
+  def fix_magnitude(D,D_start):
+        D = np.array(D)
+        scale_factor = np.sum(D_start) / (np.sum(D)) 
+        D = D * scale_factor
+        return D
+    
+  def wavelet_fit(dim,cat,cdt,w,alpha_hat,D_reported):
+        cat = np.concatenate((np.zeros((dim- cat.shape[0])),cat))
+        #cdt = np.concatenate((np.zeros((dim- cdt.shape[0])),cdt))
+        fit = pywt.idwt(cat, cdt, w)[1:]
+        return fix_magnitude(fit,alpha_hat,D_reported)
+ 
+    
+    
+  def MDL_wavelet(cat,cdt,dim,w,Parameter_P,alpha_hat,D_reported):
+        fit =  wavelet_fit(dim,cat,cdt,w,alpha_hat,D_reported)
+        cost =  MDL(fit,Parameter_P)
+        f= open("optimization_log.txt", "a+")
+        f.write("%d\r\n" % (cost))
+        fit_write = [f for f in fit]
+        f.write(str(fit_write))
+        f.write("\n")
+        f.close()
+        return cost
 
-  print (D)
+
+  '''
+  file = open('D_ground_truth.txt','r')
+  D_gt = []
+  line = file.readline()
+  D_gt = np.array([float(x) for x in line[1:-1].split(",")])
+  print(list(D_gt))
+  print(MDL(D_gt,ParameterP))
+
+  
+  '''
+  
+  
+  
+  alpha_hat = 0.1
+  D_start = np.copy(Reported) / alpha_hat
+  noisy_D_start = np.maximum(D_start  + np.multiply(D_start,np.random.normal(0,0.06,size=D_start.shape)),np.zeros_like(D_start))
+  noisy_D_start = fix_magnitude(noisy_D_start,D_start)
+  
+  print(list(noisy_D_start))
+  sys.stdout.flush()
+  
+  
+  cost = MDL(noisy_D_start,ParameterP,warm=False)
+  print(cost)
+  sys.stdout.flush()
+  
+
+  
+  f= open("noisy_D_start.txt", "w")
+  f.write("%d\r\n" % (cost))
+  f.write(str(list(noisy_D_start)))
+  f.write("\n")
+  f.close()
+
+  #print(MDL(D_start,ParameterP))
+  #sys.stdout.flush()  
+  
+  
+  '''
+  
+
+  #print([d for d in D_start])
+  #print("MDL initial:")
+  #sys.stdout.flush()
+
+  #print(MDL(D_start,ParameterP,warm=False))
+  print("Starting OPTI")
+  sys.stdout.flush()
+  
+  
+  res = minimize(fun=MDL_step2, 
+               x0=D_start, 
+               args=(D_start,ParameterP),
+               method='nelder-mead',
+               options={'maxiter': 600,'xtol':0.1, 'ftol':0.1,'adaptive': True})
+  print("FINISHEd OPTI")
+  
+  D_end = res.x
+  print(list(D_end))
+  print("OPT finished")
+  sys.stdout.flush()
+  
+
+  
+  D_tapped = np.array([0]+list(D_start))
+  w = 'haar'
+  (ca, cd) = pywt.dwt(D_tapped,w)
+  cat = pywt.threshold(ca, np.std(ca)/2, mode='soft')
+  cdt = pywt.threshold(cd, np.std(cd)/2, mode='soft')
+  j = 6
+  cat0 = cat[-j:]
+  fit0 = wavelet_fit(D_tapped.shape[0]//2,cat0,cdt,w,alpha_hat,D_tapped*alpha_hat)
+
+  
+  res = minimize(fun=MDL_wavelet, 
+               x0=cat0, 
+               args=(cdt,D_tapped.shape[0]//2, w,ParameterP,alpha_hat,D_tapped*alpha_hat),
+               method='nelder-mead',
+               options={'maxiter': 100,'xtol':0.000001, 'ftol':0.0000001,'adaptive': True})
+  print("FINISHEd OPTI")
+  cat_star = res.x
+  
+  
+  fit_final = wavelet_fit(D_tapped.shape[0]//2,cat_star,cdt,w,alpha_hat,D_tapped*alpha_hat)
+
+  print([d for d in D_start])
+  print(" ")
+  print([d for d in fit0]) 
+  print(" ")
+  print([d for d in fit_final])
+  sys.stdout.flush()
+  
+  '''
