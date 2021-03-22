@@ -267,6 +267,7 @@ alpha_read = read_parameters[["alphaest"]]
 mu_read = read_parameters[["muest"]]
 delta_read = read_parameters[["deltaest"]]
 soc_dist_read = read_parameters[["soc_dist_level_sip"]]  
+E_init_read = read_parameters[["E_init"]] 
 
 if (variable_params[i, ]$beta0est == 0) {
 
@@ -293,7 +294,7 @@ library(dplyr)
     , mu                 = mu_read
     , delta              = delta_read
     , soc_dist_level_sip = soc_dist_read
-    , E_init             = 2)
+    , E_init             = E_init_read)
       } else {
     c(beta0              = beta_read
     , alpha              = alpha_read
@@ -308,7 +309,7 @@ library(dplyr)
     , alpha              = alpha_read
     , mu                 = mu_read
     , delta              = delta_read
-    , E_init             = 2)
+    , E_init             = E_init_read)
       } else {
     c(beta0              = beta_read
     , alpha              = alpha_read
@@ -378,7 +379,7 @@ library(dplyr)
     , mu                 = mu_read
     , delta              = delta_read
     , soc_dist_level_sip = soc_dist_read
-    , E_init             = rpois(1, 2))
+    , E_init             = E_init_read)
       } else {
     c(beta0              = beta_read
     , alpha              = alpha_read
@@ -393,7 +394,7 @@ library(dplyr)
     , alpha              = alpha_read
     , mu                 = mu_read
     , delta              = delta_read
-    , E_init             = rpois(1, 2))
+    , E_init             = E_init_read)
       } else {
     c(beta0              = beta_read
     , alpha              = alpha_read
