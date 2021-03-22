@@ -232,6 +232,23 @@ covid.fitting <- pomp(
   , paramnames = param_names
   , statenames = state_names) 
 
+read_params <- read.csv(file = 'parameter.csv')
+read_parameters <- read_params[5, ]
+beta_read = read_parameters[["beta0est"]]
+alpha_read = read_parameters[["alphaest"]]
+mu_read = read_parameters[["muest"]]
+delta_read = read_parameters[["deltaest"]]
+soc_dist_read = read_parameters[["soc_dist_level_sip"]]
+E_init_read = read_parameters[["E_init"]]    
+Ia_init_read = read_parameters[["Ia_init"]]  
+Ip_init_read = read_parameters[["Ip_init"]]  
+Is_init_read = read_parameters[["Is_init"]]  
+Im_init_read = read_parameters[["Im_init"]]  
+Hr_init_read = read_parameters[["Hr_init"]]  
+Hd_init_read = read_parameters[["Hd_init"]]  
+R0_init_read = read_parameters[["R0_init"]]  
+D0_init_read = read_parameters[["D0_init"]]
+    
 if (variable_params[i, ]$beta0est == 0) {
 
 if (!more.params.uncer) {
@@ -250,20 +267,20 @@ library(dplyr)
     , Ca    = variable_params[i, ]$Ca
       )
   , {
-    c(beta0              = rlnorm(1, log(0.8), 0.17)
-    , alpha              = 0.9
-    , mu                 = 0.8
-    , delta              = 0.2
-    , soc_dist_level_sip = rlnorm(1, log(0.2), 0.2)
-    , E_init             = 4024
-    , Ia_init            = 6300
-    , Ip_init            = 150
-    , Is_init            = 110
-    , Im_init            = 440
-    , Hr_init            = 186
-    , Hd_init            = 46.5
-    , R0_init            = 199384
-    , D0_init            = 305
+    c(beta0              = beta_read
+    , alpha              = alpha_read
+    , mu                 = mu_read
+    , delta              = delta_read
+    , soc_dist_level_sip = soc_dist_read
+    , E_init             = E_init_read
+    , Ia_init            = Ia_init_read
+    , Ip_init            = Ip_init_read
+    , Is_init            = Is_init_read
+    , Im_init            = Im_init_read
+    , Hr_init            = Hr_init_read
+    , Hd_init            = Hd_init_read
+    , R0_init            = R0_init_read
+    , D0_init            = D0_init_read
     )
   }
   )
