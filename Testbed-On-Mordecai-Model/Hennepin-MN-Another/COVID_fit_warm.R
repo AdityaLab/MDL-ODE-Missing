@@ -18,7 +18,7 @@ n.mif_runs        <- 2        ## mif2 fitting parameters
 n.mif_length      <- 30
 n.mif_particles   <- 60
 n.mif_rw.sd       <- 0.002
-focal.county      <- "Santa Clara"  ## County to fit to
+focal.county      <- "Hennepin"  ## County to fit to
 ## !!! Curently parameters exist for Santa Clara, Miami-Dade, New York City, King, Los Angeles
 ## !!! But only Santa Clara explored
 # county.N        <- 1.938e6         ## County population size
