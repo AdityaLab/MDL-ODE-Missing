@@ -155,7 +155,7 @@ dmeas_deaths <- Csnippet("double tol = 1e-16;
                    }
                    else {
                        if (I_new_sympt < 1000) {                         
-                           lik = lik + 0.01*dpois(cases, I_new_sympt + tol, 1);
+                           lik = lik + 0.001*dpois(cases, I_new_sympt + tol, 1);
                        }
                        else {
                            lik = lik - 10000000;
@@ -167,7 +167,7 @@ dmeas_deaths <- Csnippet("double tol = 1e-16;
                    }
                    else {
                        if (I_new_asympt < 99000) {                         
-                           lik = lik + 0.001*dpois(uncases, I_new_asympt + tol, 1);
+                           lik = lik + 0.0001*dpois(uncases, I_new_asympt + tol, 1);
                        }
                        else {
                            lik = lik - 10000000;
