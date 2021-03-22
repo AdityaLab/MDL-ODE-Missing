@@ -15,8 +15,8 @@ fit.with          <- "D"      ## Fit with D (deaths) or H (hospitalizations)
 fit_to_sip        <- TRUE     ## Fit beta0 and shelter in place simultaneously?
 import_cases      <- FALSE    ## Use importation of cases?
 n.mif_runs        <- 2        ## mif2 fitting parameters
-n.mif_length      <- 30
-n.mif_particles   <- 60
+n.mif_length      <- 300
+n.mif_particles   <- 600
 n.mif_rw.sd       <- 0.002
 focal.county      <- "Los Angeles"  ## County to fit to
 ## !!! Curently parameters exist for Santa Clara, Miami-Dade, New York City, King, Los Angeles
