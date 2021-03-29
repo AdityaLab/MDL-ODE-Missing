@@ -263,7 +263,7 @@ if __name__ == "__main__":
         f.close()
         return cost
   
-  alpha_star = 0.05
+  alpha_star = 0.03
   D_start = np.copy(Reported) / alpha_star
 
   #MDL(D_start,ParameterP,False)
