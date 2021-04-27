@@ -33,6 +33,7 @@ def VectorCost(x):
   return Sum
 
 def TimeSeriesCost(x):
+  return np.linalg.norm(x)
   '''
   Sum = 0
   Length = x.shape[0]
@@ -48,7 +49,6 @@ def TimeSeriesCost(x):
     Sum = Sum + IntegerCost(int(keys))
   return Sum
   '''
-  return np.linalg.norm(x)
 
 if __name__ == "__main__":
 
@@ -71,18 +71,18 @@ if __name__ == "__main__":
   DataFile = pd.read_csv("result-original.csv")
 
   DataSelected = DataFile[(DataFile[".id"] == "median")]
-  DataSelected = DataSelected["I_new_sympt"].tolist()
+  DataSelected = DataSelected["D_new_reported"].tolist()
   ReportedP = DataSelected[0:64]
   ReportedP = np.array(ReportedP)
     
   DataSelected = DataFile[(DataFile[".id"] == "median")]
-  DataSelected = DataSelected["I_new_asympt"].tolist()
+  DataSelected = DataSelected["D_new_unreported"].tolist()
   UnreportedP = DataSelected[0:64]
   UnreportedP = np.array(UnreportedP)
 
   DataFile = pd.read_csv("parameter-original.csv")
   DataSelected = DataFile[(DataFile["sim_start"] == "2020-02-05")]
-  ParameterP = [DataSelected["beta0est"].to_list()[0], DataSelected["alphaest"].to_list()[0], DataSelected["muest"].to_list()[0], DataSelected["deltaest"].to_list()[0]]
+  ParameterP = [DataSelected["beta0est"].to_list()[4], DataSelected["alphaest"].to_list()[4], DataSelected["alpha1est"].to_list()[4], DataSelected["E_init"].to_list()[4]]
   ParameterP = np.array(ParameterP)
 
   def MDL(D, ParameterP, warm=False):
@@ -114,26 +114,41 @@ if __name__ == "__main__":
         DataFile = pd.read_csv("result.csv")
         
         DataSelected = DataFile[(DataFile[".id"] == "median")]
-        DataSelected = DataSelected["I_new_sympt"].tolist()
+        DataSelected = DataSelected["D_new_reported"].tolist()
         ReportedPP = DataSelected[0:64]
         ReportedPP = np.array(ReportedPP)
         
         DataSelected = DataFile[(DataFile[".id"] == "median")]
-        DataSelected = DataSelected["I_new_asympt"].tolist()
+        DataSelected = DataSelected["D_new_unreported"].tolist()
         UnreportedPP = DataSelected[0:64]
         UnreportedPP = np.array(UnreportedPP)
+
+        DataSelected = DataFile[(DataFile[".id"] == "median")]
+        DataSelected = DataSelected["dIpIs_save"].tolist()
+        dIpIs = DataSelected[0:64]
+        dIpIs = np.array(dIpIs)
+
+        DataSelected = DataFile[(DataFile[".id"] == "median")]
+        DataSelected = DataSelected["dIpIm_save"].tolist()
+        dIpIm = DataSelected[0:64]
+        dIpIm = np.array(dIpIm)
+
+        DataSelected = DataFile[(DataFile[".id"] == "median")]
+        DataSelected = DataSelected["dEIa_save"].tolist()
+        dEIa = DataSelected[0:64]
+        dEIa = np.array(dEIa)
       
         DataFile = pd.read_csv("parameter.csv")
         DataSelected = DataFile[(DataFile["sim_start"] == "2020-02-05")]
-        ParameterPP = [DataSelected["beta0est"].to_list()[0], DataSelected["alphaest"].to_list()[0], DataSelected["muest"].to_list()[0], DataSelected["deltaest"].to_list()[0]]
+        ParameterPP = [DataSelected["beta0est"].to_list()[4], DataSelected["alphaest"].to_list()[4], DataSelected["alpha1est"].to_list()[4], DataSelected["E_init"].to_list()[4]]
         ParameterPP = np.array(ParameterPP)
 
-        ParameterPP[1] = 1.0 - ParameterPP[1]
+        ReportRate = (ParameterPP[2]*(np.sum(dIpIs)+np.sum(dIpIm)))/(np.sum(dIpIs)+np.sum(dIpIm)+np.sum(dEIa))
 
         ModelCost1 = VectorCost(ParameterP)
         ModelCost2 = VectorCost(ParameterPP - ParameterP)
-        ModelCost3 = TimeSeriesCost(ParameterPP[1]*D - ReportedP)
-        DataCost = TimeSeriesCost(((D-Reported)/(1.0-ParameterPP[1]))-(ReportedPP+UnreportedPP))
+        ModelCost3 = TimeSeriesCost(ReportRate*D - ReportedP)
+        DataCost = TimeSeriesCost(((D-Reported)/(1.0-ReportRate))-(ReportedPP+UnreportedPP))
         MDLCost = ModelCost1 + ModelCost2 + ModelCost3 + DataCost
         break
       except:
@@ -193,26 +208,41 @@ if __name__ == "__main__":
         DataFile = pd.read_csv("result.csv")
         
         DataSelected = DataFile[(DataFile[".id"] == "median")]
-        DataSelected = DataSelected["I_new_sympt"].tolist()
+        DataSelected = DataSelected["D_new_reported"].tolist()
         ReportedPP = DataSelected[0:64]
         ReportedPP = np.array(ReportedPP)
         
         DataSelected = DataFile[(DataFile[".id"] == "median")]
-        DataSelected = DataSelected["I_new_asympt"].tolist()
+        DataSelected = DataSelected["D_new_unreported"].tolist()
         UnreportedPP = DataSelected[0:64]
         UnreportedPP = np.array(UnreportedPP)
+
+        DataSelected = DataFile[(DataFile[".id"] == "median")]
+        DataSelected = DataSelected["dIpIs_save"].tolist()
+        dIpIs = DataSelected[0:64]
+        dIpIs = np.array(dIpIs)
+
+        DataSelected = DataFile[(DataFile[".id"] == "median")]
+        DataSelected = DataSelected["dIpIm_save"].tolist()
+        dIpIm = DataSelected[0:64]
+        dIpIm = np.array(dIpIm)
+
+        DataSelected = DataFile[(DataFile[".id"] == "median")]
+        DataSelected = DataSelected["dEIa_save"].tolist()
+        dEIa = DataSelected[0:64]
+        dEIa = np.array(dEIa)
       
         DataFile = pd.read_csv("parameter.csv")
         DataSelected = DataFile[(DataFile["sim_start"] == "2020-02-05")]
-        ParameterPP = [DataSelected["beta0est"].to_list()[0], DataSelected["alphaest"].to_list()[0], DataSelected["muest"].to_list()[0], DataSelected["deltaest"].to_list()[0]]
+        ParameterPP = [DataSelected["beta0est"].to_list()[4], DataSelected["alphaest"].to_list()[4], DataSelected["alpha1est"].to_list()[4], DataSelected["E_init"].to_list()[4]]
         ParameterPP = np.array(ParameterPP)
 
-        ParameterPP[1] = 1.0 - ParameterPP[1]
+        ReportRate = (ParameterPP[2]*(np.sum(dIpIs)+np.sum(dIpIm)))/(np.sum(dIpIs)+np.sum(dIpIm)+np.sum(dEIa))
 
         ModelCost1 = VectorCost(ParameterP)
         ModelCost2 = VectorCost(ParameterPP - ParameterP)
-        ModelCost3 = TimeSeriesCost(ParameterPP[1]*(ReportedPP+UnreportedPP) - ReportedP)
-        DataCost = TimeSeriesCost((((ReportedPP+UnreportedPP)-Reported)/(1.0-ParameterPP[1]))-(ReportedPP+UnreportedPP))
+        ModelCost3 = TimeSeriesCost(ReportRate*(ReportedPP+UnreportedPP) - ReportedP)
+        DataCost = TimeSeriesCost((((ReportedPP+UnreportedPP)-Reported)/(1.0-ReportRate))-(ReportedPP+UnreportedPP))
         MDLCost = ModelCost1 + ModelCost2 + ModelCost3 + DataCost
         break
       except:
@@ -221,7 +251,7 @@ if __name__ == "__main__":
     with open('alpha.txt','a+') as WriteFile:
       WriteFile.write(str(alpha))
       WriteFile.write(',')
-      WriteFile.write(str(ParameterPP[1]))
+      WriteFile.write(str(ReportRate))
       WriteFile.write(',')
       WriteFile.write(str(ModelCost1))
       WriteFile.write(',')
@@ -235,7 +265,7 @@ if __name__ == "__main__":
       WriteFile.write('\n')
 
     return MDLCost
-  
+
   def MDL_step2(D,D_start,ParameterP):
       D_scaled = fix_magnitude(D,D_start)
       cost =  MDL(D_scaled,ParameterP,True)
@@ -263,12 +293,12 @@ if __name__ == "__main__":
         f.close()
         return cost
   
-  alpha_star = 0.04
+  alpha_star = 0.01
   D_start = np.copy(Reported) / alpha_star
 
-  #MDL(D_start,ParameterP,False)
+  MDL(D_start,ParameterP,True)
  
-  res = minimize(fun=MDL_step2, x0=D_start, args=(D_start,ParameterP), method='nelder-mead', options={'maxiter':10, 'xtol':10, 'ftol':5})
+  res = minimize(fun=MDL_step2, x0=D_start, args=(D_start,ParameterP), method='nelder-mead', options={'maxiter':10, 'xtol':10, 'ftol':50})
   
   D_star = res.x
 

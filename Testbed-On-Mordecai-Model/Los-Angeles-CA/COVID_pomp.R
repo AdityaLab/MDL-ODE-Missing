@@ -67,8 +67,12 @@ sir_step <- Csnippet("
                      Is += dIpIs - dIsHd - dIsHr; // infectious and severe symptoms (that will be hospitalized)
                      Im += dIpIm - dImR; // infectious and minor symptoms
                      I   = Ia + Ip + Im + Is; // total number of infected
-                     I_new_sympt += dEIp; // total number of newly symptomatic
-                     I_new_asympt += dEIa; // total number of newly asymptomatic
+                     I_new_sympt += dIpIs + dIpIm; // total number of newly symptomatic
+                     D_new_reported += alpha1 * (dIpIs + dIpIm);
+                     D_new_unreported += ((1 - alpha1) * (dIpIs + dIpIm) + dEIa);
+                     dIpIs_save += dIpIs;
+                     dIpIm_save += dIpIm;
+                     dEIa_save += dEIa;
                      Hr += dIsHr - dHrR; // hospitalized that will recover
                      Hd += dIsHd - dHdD; // hospitalizations that will die
                      H   = Hr + Hd; // total hospitalizations
@@ -93,7 +97,11 @@ sir_init <- Csnippet("
                      Im = 0;
                      I = 0;
                      I_new_sympt = 0;
-                     I_new_asympt = 0;
+                     D_new_reported = 0;
+                     D_new_unreported = 0;
+                     dIpIs_save = 0;
+                     dIpIm_save = 0;
+                     dEIa_save = 0;
                      Hr = 0;
                      Hd = 0;
                      H = Hd + Hr;
@@ -116,7 +124,11 @@ sir_init <- Csnippet("
                      Im = 0;
                      I = 0;
                      I_new_sympt = 0;
-                     I_new_asympt = 0;
+                     D_new_reported = 0;
+                     D_new_unreported = 0;
+                     dIpIs_save = 0;
+                     dIpIm_save = 0;
+                     dEIa_save = 0;
                      Hr = 0;
                      Hd = 0;
                      H = Hd + Hr;
@@ -133,8 +145,8 @@ sir_init <- Csnippet("
 # define random simulator of measurement
 rmeas_deaths <- Csnippet("double tol = 1e-16;
                    deaths = rpois(D_new + tol);
-                   cases = rpois(I_new_sympt + tol);
-                   uncases = rpois(I_new_asympt + tol);
+                   cases = rpois(D_new_reported + tol);
+                   uncases = rpois(D_new_unreported + tol);
                   ")
 # define evaluation of model prob density function
 dmeas_deaths <- Csnippet("double tol = 1e-16;
@@ -143,7 +155,7 @@ dmeas_deaths <- Csnippet("double tol = 1e-16;
                    }
                    else {
                        if (D_new < 100) {                         
-                           lik = 0.1*dpois(deaths, D_new + tol, 1);
+                           lik = dpois(deaths, D_new + tol, 1);
                        }
                        else {
                            lik = - 10000000;
@@ -154,8 +166,8 @@ dmeas_deaths <- Csnippet("double tol = 1e-16;
                        lik = lik + 0;
                    }
                    else {
-                       if (I_new_sympt < 1000) {                         
-                           lik = lik + 0.001*dpois(cases, I_new_sympt + tol, 1);
+                       if (D_new_reported < 1000) {                         
+                           lik = lik + 0.0025*dpois(cases, D_new_reported + tol, 1);
                        }
                        else {
                            lik = lik - 10000000;
@@ -166,14 +178,13 @@ dmeas_deaths <- Csnippet("double tol = 1e-16;
                        lik = lik + 0;
                    }
                    else {
-                       if (I_new_asympt < 99000) {                         
-                           lik = lik + 0.0001*dpois(uncases, I_new_asympt + tol, 1);
+                       if (D_new_unreported < 99000) {                         
+                           lik = lik + 0.00025*dpois(uncases, D_new_unreported + tol, 1);
                        }
                        else {
                            lik = lik - 10000000;
                        }
                    }
-
                    lik = (give_log) ? lik : exp(lik);
                   ")
 # define random simulator of measurement
@@ -190,10 +201,11 @@ if (fitting) {
   if (fit_to_sip) {
     
 if (fit.E0) {
-par_trans   <- parameter_trans(log = c("beta0", "alpha", "mu", "delta", "import_rate", "E_init"),
+par_trans   <- parameter_trans(log = c("beta0", "alpha", "alpha1", "import_rate", "E_init"),
                              logit = c("soc_dist_level_sip")) 
 param_names <- c(
    "beta0"
+  , "alpha1"
   , "Ca", "Cp", "Cs", "Cm"
   , "alpha"
   , "mu"
@@ -209,10 +221,11 @@ param_names <- c(
 )
 
 } else {
-par_trans   <- parameter_trans(log = c("beta0", "alpha", "mu", "delta", "import_rate"),
+par_trans   <- parameter_trans(log = c("beta0", "alpha", "alpha1", "import_rate"),
                             logit = c("soc_dist_level_sip"))  
 param_names <- c(
    "beta0"
+  , "alpha1"
   , "Ca", "Cp", "Cs", "Cm"
   , "alpha"
   , "mu"
@@ -232,9 +245,10 @@ param_names <- c(
   } else {
 
 if (fit.E0) {
-par_trans   <- parameter_trans(log = c("beta0", "alpha", "mu", "delta", "import_rate", "E_init"))
+par_trans   <- parameter_trans(log = c("beta0", "alpha", "alpha1", "import_rate", "E_init"))
 param_names <- c(
    "beta0"
+  , "alpha1"
   , "Ca", "Cp", "Cs", "Cm"
   , "alpha"
   , "mu"
@@ -249,9 +263,10 @@ param_names <- c(
 )
 
 } else {
-par_trans   <- parameter_trans(log = c("beta0", "alpha", "mu", "delta", "import_rate"))  
+par_trans   <- parameter_trans(log = c("beta0", "alpha", "alpha1", "import_rate"))  
 param_names <- c(
    "beta0"
+  , "alpha1"
   , "Ca", "Cp", "Cs", "Cm"
   , "alpha"
   , "mu"
@@ -272,9 +287,10 @@ param_names <- c(
 } else {
   
 if (fit.E0) {
-par_trans   <- parameter_trans(log = c("beta0", "alpha", "mu", "delta", "E_init"))
+par_trans   <- parameter_trans(log = c("beta0", "alpha", "alpha1", "E_init"))
 param_names <- c(
    "beta0"
+  , "alpha1"
   , "Ca", "Cp", "Cs", "Cm"
   , "alpha"
   , "mu"
@@ -289,9 +305,10 @@ param_names <- c(
 )
 
 } else {
-par_trans   <- parameter_trans(log = c("beta0", "alpha", "mu", "delta")) 
+par_trans   <- parameter_trans(log = c("beta0", "alpha", "alpha1")) 
 param_names <- c(
    "beta0"
+  , "alpha1"
   , "Ca", "Cp", "Cs", "Cm"
   , "alpha"
   , "mu"
@@ -310,13 +327,15 @@ param_names <- c(
 }
 
 # variables that should be zeroed after each obs
-accum_names <- c("D_new", "H_new", "I_new_sympt", "I_new_asympt")
+accum_names <- c("D_new", "H_new", "I_new_sympt", "D_new_reported", "D_new_unreported", "dIpIs_save", "dIpIm_save", "dEIa_save")
 
 # state variables
 state_names <- c(
     "S" , "E" , "Ia"
   , "Ip", "Is", "Im"
-  , "I" , "I_new_sympt" , "I_new_asympt"
+  , "I" , "I_new_sympt"
+  , "D_new_reported", "D_new_unreported"
+  , "dIpIs_save", "dIpIm_save", "dEIa_save"
   , "H" , "Hr", "Hd"
   , "R" , "D" 
   , "D_new", "H_new" 
@@ -326,16 +345,16 @@ state_names <- c(
 
 
 ## R0 here just based on the simple transmission rate / recovery rate (weighted by the probability of going into different classes)
-covid_R0 <- function (beta0est, alphaest, muest, fixed_params, sd_strength, prop_S) {
+covid_R0 <- function (beta0est, alphaest, fixed_params, sd_strength, prop_S) {
 ## transmission rate
  R <- beta0est * prop_S * sd_strength * 
     (                
 ## proportion * time in asymptomatic
       alphaest * fixed_params["Ca"] * (1/fixed_params["lambda_a"]) +                  
 ## proportion * time in mildly symptomatic
-      (1 - alphaest) * muest * ((1/fixed_params["lambda_p"]) + (1/fixed_params["lambda_m"])) +    
+      (1 - alphaest) * fixed_params["mu"] * ((1/fixed_params["lambda_p"]) + (1/fixed_params["lambda_m"])) +    
 ## proportion * time in severely symptomatic
-      (1 - alphaest) * (1 - muest) * ((1/fixed_params["lambda_p"]) + (1/fixed_params["lambda_s"]))      
+      (1 - alphaest) * (1 - fixed_params["mu"]) * ((1/fixed_params["lambda_p"]) + (1/fixed_params["lambda_s"]))      
   )
  
  unlist(R)
