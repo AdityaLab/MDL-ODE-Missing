@@ -15,8 +15,8 @@ fit.with          <- "D"      ## Fit with D (deaths) or H (hospitalizations)
 fit_to_sip        <- TRUE     ## Fit beta0 and shelter in place simultaneously?
 import_cases      <- FALSE    ## Use importation of cases?
 n.mif_runs        <- 2        ## mif2 fitting parameters
-n.mif_length      <- 300
-n.mif_particles   <- 600
+n.mif_length      <- 30
+n.mif_particles   <- 30
 n.mif_rw.sd       <- 0.002
 focal.county      <- "Hennepin"  ## County to fit to
 ## !!! Curently parameters exist for Santa Clara, Miami-Dade, New York City, King, Los Angeles
@@ -24,7 +24,7 @@ focal.county      <- "Hennepin"  ## County to fit to
 # county.N        <- 1.938e6         ## County population size
 ## !!! Now contained within location_params.csv
 nparams           <- 5               ## number of parameter sobol samples (more = longer)
-nsim              <- 1000             ## number of simulations for each fitted beta0 for dynamics
+nsim              <- 200             ## number of simulations for each fitted beta0 for dynamics
 
 needed_packages <- c(
     "pomp"
@@ -109,26 +109,26 @@ if (fit_to_sip) {
 if (fit.E0) {
 param_array <- array(
   data = 0
-, dim  = c(nparams, n.mif_runs, 7))
-dimnames(param_array)[[3]] <- c("beta0", "alpha", "mu", "delta", "soc_dist_level_sip", "loglik", "E_init")  
+, dim  = c(nparams, n.mif_runs, 6))
+dimnames(param_array)[[3]] <- c("beta0", "alpha", "alpha1", "soc_dist_level_sip", "loglik", "E_init")  
 } else {
 param_array <- array(
   data = 0
-, dim  = c(nparams, n.mif_runs, 6))
-dimnames(param_array)[[3]] <- c("beta0", "alpha", "mu", "delta", "soc_dist_level_sip", "loglik")  
+, dim  = c(nparams, n.mif_runs, 5))
+dimnames(param_array)[[3]] <- c("beta0", "alpha", "alpha1", "soc_dist_level_sip", "loglik")  
 }
 } else {
 ## beta0, loglik
 if (fit.E0) {
 param_array <- array(
   data = 0
-, dim  = c(nparams, n.mif_runs, 6))  
-dimnames(param_array)[[3]] <- c("beta0", "alpha", "mu", "delta", "loglik", "E_init")  
+, dim  = c(nparams, n.mif_runs, 5))  
+dimnames(param_array)[[3]] <- c("beta0", "alpha", "alpha1", "loglik", "E_init")  
 } else {
 param_array <- array(
   data = 0
-, dim  = c(nparams, n.mif_runs, 5))  
-dimnames(param_array)[[3]] <- c("beta0", "alpha", "mu", "delta", "loglik")  
+, dim  = c(nparams, n.mif_runs, 4))  
+dimnames(param_array)[[3]] <- c("beta0", "alpha", "alpha1", "loglik")  
 }
 }
 
@@ -262,13 +262,12 @@ covid.fitting <- pomp(
 
 read_params <- read.csv(file = 'parameter.csv')
 read_parameters <- read_params[5, ]
-beta_read = read_parameters[["beta0est"]]
+beta0_read = read_parameters[["beta0est"]]
 alpha_read = read_parameters[["alphaest"]]
-mu_read = read_parameters[["muest"]]
-delta_read = read_parameters[["deltaest"]]
-soc_dist_read = read_parameters[["soc_dist_level_sip"]]  
-E_init_read = read_parameters[["E_init"]] 
-    
+alpha1_read = read_parameters[["alpha1est"]]
+soc_dist_level_sip_read = read_parameters[["soc_dist_level_sip"]]   
+E_init_read = read_parameters[["E_init"]]
+
 if (variable_params[i, ]$beta0est == 0) {
 
 if (!more.params.uncer) {
@@ -285,36 +284,34 @@ library(dplyr)
   , params  = c(
     c(fixed_params
     , Ca    = variable_params[i, ]$Ca
+    , delta = variable_params[i, ]$delta
+    , mu    = variable_params[i, ]$mu
       )
   , {
     if (fit_to_sip) {
       if (fit.E0) {
-    c(beta0              = beta_read
-    , alpha              = alpha_read
-    , mu                 = mu_read
-    , delta              = delta_read
-    , soc_dist_level_sip = soc_dist_read
-    , E_init             = E_init)
+    c(beta0              = beta0_read
+    , alpha             = alpha_read
+    , alpha1             = alpha1_read
+    , soc_dist_level_sip = soc_dist_level_sip_read
+    , E_init             = E_init_read)
       } else {
-    c(beta0              = beta_read
-    , alpha              = alpha_read
-    , mu                 = mu_read
-    , delta              = delta_read
-    , soc_dist_level_sip = soc_dist_read
+    c(beta0              = beta0_read
+    , alpha             = alpha_read
+    , alpha1             = alpha1_read
+    , soc_dist_level_sip = soc_dist_level_sip_read
     , E0                 = variable_params[i, ]$E0)        
       }
     } else {
       if (fit.E0) {
-    c(beta0              = beta_read
-    , alpha              = alpha_read
-    , mu                 = mu_read
-    , delta              = delta_read
-    , E_init             = E_init)
+    c(beta0              = beta0_read
+    , alpha             = alpha_read
+    , alpha1             = alpha1_read
+    , E_init             = E_init_read)
       } else {
-    c(beta0              = beta_read
-    , alpha              = alpha_read
-    , mu                 = mu_read
-    , delta              = delta_read
+    c(beta0              = beta0_read
+    , alpha             = alpha_read
+    , alpha1             = alpha1_read
     , E0                 = variable_params[i, ]$E0)        
       }
     }
@@ -326,15 +323,15 @@ library(dplyr)
   , rw.sd  = {
     if (fit_to_sip) {
       if (fit.E0) {
-    rw.sd(beta0 = n.mif_rw.sd, alpha = n.mif_rw.sd, mu = n.mif_rw.sd, delta = n.mif_rw.sd, soc_dist_level_sip = n.mif_rw.sd, E_init = n.mif_rw.sd)        
+    rw.sd(beta0 = n.mif_rw.sd, alpha = n.mif_rw.sd, alpha1 = n.mif_rw.sd, soc_dist_level_sip = n.mif_rw.sd, E_init = n.mif_rw.sd)        
       } else {
-    rw.sd(beta0 = n.mif_rw.sd, alpha = n.mif_rw.sd, mu = n.mif_rw.sd, delta = n.mif_rw.sd, soc_dist_level_sip = n.mif_rw.sd)        
+    rw.sd(beta0 = n.mif_rw.sd, alpha = n.mif_rw.sd, alpha1 = n.mif_rw.sd, soc_dist_level_sip = n.mif_rw.sd)        
       }
     } else {
       if (fit.E0) {
-    rw.sd(beta0 = n.mif_rw.sd, alpha = n.mif_rw.sd, mu = n.mif_rw.sd, delta = n.mif_rw.sd, E_init = n.mif_rw.sd)        
+    rw.sd(beta0 = n.mif_rw.sd, alpha = n.mif_rw.sd, alpha1 = n.mif_rw.sd, E_init = n.mif_rw.sd)        
       } else {
-    rw.sd(beta0 = n.mif_rw.sd, alpha = n.mif_rw.sd, mu = n.mif_rw.sd, delta = n.mif_rw.sd)        
+    rw.sd(beta0 = n.mif_rw.sd, alpha = n.mif_rw.sd, alpha1 = n.mif_rw.sd)        
       }
     }
   }
@@ -367,6 +364,8 @@ library(dplyr)
   , params = c(
     c(fixed_params
       , Ca       = variable_params[i, ]$Ca
+      , delta    = variable_params[i, ]$delta
+      , mu       = variable_params[i, ]$mu
       , lambda_a = variable_params[i, ]$lambda_a
       , lambda_s = variable_params[i, ]$lambda_s
       , lambda_m = variable_params[i, ]$lambda_m  
@@ -374,32 +373,28 @@ library(dplyr)
   , {
     if (fit_to_sip) {
       if (fit.E0) {
-    c(beta0              = beta_read
-    , alpha              = alpha_read
-    , mu                 = mu_read
-    , delta              = delta_read
-    , soc_dist_level_sip = soc_dist_read
-    , E_init             = E_init)
+    c(beta0              = beta0_read
+    , alpha             = alpha_read
+    , alpha1             = alpha1_read
+    , soc_dist_level_sip = soc_dist_level_sip_read
+    , E_init             = E_init_read)
       } else {
-    c(beta0              = beta_read
-    , alpha              = alpha_read
-    , mu                 = mu_read
-    , delta              = delta_read
-    , soc_dist_level_sip = soc_dist_read
+    c(beta0              = beta0_read
+    , alpha             = alpha_read
+    , alpha1             = alpha1_read
+    , soc_dist_level_sip = soc_dist_level_sip_read
     , E0                 = variable_params[i, ]$E0)        
       }
     } else {
       if (fit.E0) {
-    c(beta0              = beta_read
-    , alpha              = alpha_read
-    , mu                 = mu_read
-    , delta              = delta_read
-    , E_init             = E_init)
+    c(beta0              = beta0_read
+    , alpha             = alpha_read
+    , alpha1             = alpha1_read
+    , E_init             = E_init_read)
       } else {
-    c(beta0              = beta_read
-    , alpha              = alpha_read
-    , mu                 = mu_read
-    , delta              = delta_read
+    c(beta0              = beta0_read
+    , alpha             = alpha_read
+    , alpha1             = alpha1_read
     , E0                 = variable_params[i, ]$E0)        
       }
     }
@@ -411,15 +406,15 @@ library(dplyr)
   , rw.sd  = {
     if (fit_to_sip) {
       if (fit.E0) {
-    rw.sd(beta0 = n.mif_rw.sd, alpha = n.mif_rw.sd, mu = n.mif_rw.sd, delta = n.mif_rw.sd, soc_dist_level_sip = n.mif_rw.sd, E_init = n.mif_rw.sd)        
+    rw.sd(beta0 = n.mif_rw.sd, alpha = n.mif_rw.sd, alpha1 = n.mif_rw.sd, soc_dist_level_sip = n.mif_rw.sd, E_init = n.mif_rw.sd)        
       } else {
-    rw.sd(beta0 = n.mif_rw.sd, alpha = n.mif_rw.sd, mu = n.mif_rw.sd, delta = n.mif_rw.sd, soc_dist_level_sip = n.mif_rw.sd)        
+    rw.sd(beta0 = n.mif_rw.sd, alpha = n.mif_rw.sd, alpha1 = n.mif_rw.sd, soc_dist_level_sip = n.mif_rw.sd)        
       }
     } else {
       if (fit.E0) {
-    rw.sd(beta0 = n.mif_rw.sd, alpha = n.mif_rw.sd, mu = n.mif_rw.sd, delta = n.mif_rw.sd, E_init = n.mif_rw.sd)        
+    rw.sd(beta0 = n.mif_rw.sd, alpha = n.mif_rw.sd, alpha1 = n.mif_rw.sd, E_init = n.mif_rw.sd)        
       } else {
-    rw.sd(beta0 = n.mif_rw.sd, alpha = n.mif_rw.sd, mu = n.mif_rw.sd, delta = n.mif_rw.sd)        
+    rw.sd(beta0 = n.mif_rw.sd, alpha = n.mif_rw.sd, alpha1 = n.mif_rw.sd)        
       }
     }
   }
@@ -438,8 +433,7 @@ gg.fit <- mifs_local %>%
     variable == "loglik" | 
     variable == "beta0" | 
     variable == "alpha" |
-    variable == "mu" |
-    variable == "delta" | 
+    variable == "alpha1" |
     variable == "soc_dist_level_sip" |
     variable == "E_init") %>% 
   ggplot(aes(x = iteration, y = value, group = L1, colour = factor(L1)))+
@@ -453,10 +447,8 @@ variable_params[i, "beta0est"] <- mean(coef(mifs_local)[which(dimnames(coef(mifs
 param_array[i,,"beta0"]        <- coef(mifs_local)[which(dimnames(coef(mifs_local))$parameter == "beta0"), ] 
 variable_params[i, "alphaest"] <- mean(coef(mifs_local)[which(dimnames(coef(mifs_local))$parameter == "alpha"), ])
 param_array[i,,"alpha"]        <- coef(mifs_local)[which(dimnames(coef(mifs_local))$parameter == "alpha"), ] 
-variable_params[i, "muest"] <- mean(coef(mifs_local)[which(dimnames(coef(mifs_local))$parameter == "mu"), ])
-param_array[i,,"mu"]        <- coef(mifs_local)[which(dimnames(coef(mifs_local))$parameter == "mu"), ] 
-variable_params[i, "deltaest"] <- mean(coef(mifs_local)[which(dimnames(coef(mifs_local))$parameter == "delta"), ])
-param_array[i,,"delta"] 
+variable_params[i, "alpha1est"] <- mean(coef(mifs_local)[which(dimnames(coef(mifs_local))$parameter == "alpha1"), ])
+param_array[i,,"alpha1"]        <- coef(mifs_local)[which(dimnames(coef(mifs_local))$parameter == "alpha1"), ] 
 
 loglik.out    <- numeric(length(mifs_local))
 for (k in seq_along(loglik.out)) {
@@ -478,10 +470,11 @@ SEIR.sim <- do.call(
       c(fixed_params, c(
       beta0 = variable_params[i, "beta0est"]
     , alpha = variable_params[i, "alphaest"]
-    , mu    = variable_params[i, "muest"]
-    , delta = variable_params[i, "deltaest"]
+    , alpha1 = variable_params[i, "alpha1est"]
     , soc_dist_level_sip = variable_params[i, "soc_dist_level_sip"]
     , Ca    = variable_params[i, ]$Ca
+    , delta = variable_params[i, ]$delta
+    , mu    = variable_params[i, ]$mu
       )
       , if (fit.E0) { 
           c(E_init = variable_params[i, ]$E_init)
@@ -493,10 +486,9 @@ SEIR.sim <- do.call(
       c(fixed_params, c(
       beta0    = variable_params[i, "beta0est"]
     , alpha = variable_params[i, "alphaest"]
-    , mu    = variable_params[i, "muest"]
-    , delta = variable_params[i, "deltaest"]
+    , alpha1 = variable_params[i, "alpha1est"]
     , soc_dist_level_sip = variable_params[i, "soc_dist_level_sip"]
-      , alpha    = variable_params[i, ]$alpha
+      , Ca       = variable_params[i, ]$Ca
       , lambda_a = variable_params[i, ]$lambda_a
       , lambda_s = variable_params[i, ]$lambda_s
       , lambda_m = variable_params[i, ]$lambda_m 
@@ -601,14 +593,14 @@ SEIR.sim.ss.t.ci <- rbind(SEIR.sim.ss.t.ci, SEIR.sim.ss.t.s)
 
 ## Update variable params with R0 estimate
 variable_params[i, ]$Reff <- with(variable_params[i, ], covid_R0(
-  beta0est = beta0est, alphaest = alphaest, muest = muest, fixed_params = c(fixed_params, unlist(variable_params[i, ]))
+  beta0est = beta0est, alphaest = alphaest, fixed_params = c(fixed_params, unlist(variable_params[i, ]))
   , sd_strength = soc_dist_level_sip
 , prop_S = unlist(SEIR.sim.ss.t.s[SEIR.sim.ss.t.s$name == "S_now", 3]) / 
     (location_params[location_params$Parameter == "N", ]$est - 
         SEIR.sim.ss.t.s[SEIR.sim.ss.t.s$name == "total_D", 3])))
 
 variable_params[i, ]$R0 <- with(variable_params[i, ], covid_R0(
-  beta0est = beta0est, alphaest = alphaest, muest = muest, fixed_params = c(fixed_params, unlist(variable_params[i, ]))
+  beta0est = beta0est, alphaest = alphaest, fixed_params = c(fixed_params, unlist(variable_params[i, ]))
   , sd_strength = 1, prop_S = 1))
 
 if (((i / 20) %% 1) == 0) {
@@ -640,4 +632,4 @@ saveRDS(
      , "Rds", sep = "."))
 
 write.csv(SEIR.sim,file="result.csv",quote=F,row.names = F)
-write.csv(variable_params,file="parameter.csv",quote=F,row.names = F) 
+write.csv(variable_params,file="parameter.csv",quote=F,row.names = F)  
