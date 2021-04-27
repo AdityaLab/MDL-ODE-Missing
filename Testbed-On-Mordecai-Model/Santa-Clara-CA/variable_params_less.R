@@ -1,4 +1,4 @@
-fixed_params        <- fixed_params[-c(1)]
+fixed_params        <- fixed_params[-c(1, 10, 11)]
 
 ## parameters that will vary
 variable_params <- sobolDesign(
@@ -15,6 +15,8 @@ variable_params <- sobolDesign(
     , location_params[location_params$Parameter == "soc_dist_level_sip", ]$lwr
     , NA)
   , Ca          = params[params$Parameter == "Ca", ]$lwr
+  , delta       = params[params$Parameter == "delta", ]$lwr
+  , mu          = params[params$Parameter == "mu", ]$lwr
   )
 , upper = c(
     E0          = ifelse(!fit.E0
@@ -29,6 +31,8 @@ variable_params <- sobolDesign(
     , location_params[location_params$Parameter == "soc_dist_level_sip", ]$upr
     , NA)
   , Ca          = params[params$Parameter == "Ca", ]$upr
+  , delta       = params[params$Parameter == "delta", ]$upr
+  , mu          = params[params$Parameter == "mu", ]$upr
 )
 , nseq  = nparams
 ) %>% mutate(
@@ -54,8 +58,7 @@ variable_params <- variable_params %>% mutate(
   ## Column for estimated beta0 (!! see lower down for desire to store likelyhood profile to define pmcmc runs)
   , beta0est     = 0
   , alphaest     = 0
-  , muest        = 0
-  , deltaest     = 0
+  , alpha1est    = 0
   , paramset     = seq(1, nparams)
 ) 
 
