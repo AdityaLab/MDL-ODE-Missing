@@ -298,7 +298,7 @@ if __name__ == "__main__":
 
   MDL(D_start,ParameterP,True)
  
-  res = minimize(fun=MDL_step2, x0=D_start, args=(D_start,ParameterP), method='nelder-mead', options={'maxiter':10, 'xtol':10, 'ftol':5})
+  res = minimize(fun=MDL_step2, x0=D_start, args=(D_start,ParameterP), method='nelder-mead', options={'maxiter':10, 'xtol':1, 'ftol':50})
   
   D_star = res.x
 
