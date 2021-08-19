@@ -21,10 +21,7 @@ def IntegerCost(x):
 
 def RealNumberCost(x):
   delta = 0.1
-  if (math.floor(abs(x)) == 0):
-    return 1-math.log(delta,2) 
-  else:
-    return IntegerCost(math.floor(abs(x)))-math.log(delta,2)+1 
+  return IntegerCost(math.floor(abs(x)))-math.log(delta,2)+1 
 
 def VectorCost(x):
   Sum = 0
@@ -33,22 +30,10 @@ def VectorCost(x):
   return Sum
 
 def TimeSeriesCost(x):
-  '''
   Sum = 0
-  Length = x.shape[0]
-  x_grad = np.around(np.gradient(x))
-  T, Tcount = np.unique(x_grad, return_counts = True)
-  XDictionary = {}
-  for counter in range(len(T)):
-    XDictionary[int(T[counter])] = int(Tcount[counter]) 
-  for keys in XDictionary.keys():
-    Sum = Sum + 1.0*XDictionary[keys]/Length*math.log(1.0*Length/XDictionary[keys],2)
-  Sum = Length * Sum
-  for keys in XDictionary.keys():
-    Sum = Sum + IntegerCost(int(keys))
+  for xnow in x:
+    Sum = Sum + RealNumberCost(xnow)
   return Sum
-  '''
-  return np.linalg.norm(x)
 
 if __name__ == "__main__":
 
