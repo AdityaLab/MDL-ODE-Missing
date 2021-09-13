@@ -9,14 +9,15 @@ Most python packages and R packages used in the code can be installed directly v
 
 ## Directory structure
 
-'''
+```
 -Testbed-On-Mordecai-Model
 	- Santa Clara, CA -> testbed for Santa Clara, CA
     		- alpha.py -> Step 1 algorithm code
     		- D.py -> Step 2 algorithm code
    		- result -> Saved ODE output for step 1 result
   		- parameter -> Saved ODE parameter for step 1 result
-'''
+```
+
   
 ## Dataset
 
