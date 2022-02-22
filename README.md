@@ -4,8 +4,8 @@ Link to paper:
 
 ## Setup
 
-The code is running on python 3 and R.
-Most python packages and R packages used in the code can be installed directly via pip (for python) or install.packages() command (for R). Specially, running the SEIR+HD model code needs the pomp page of R, the detail of this package can be found here: https://kingaa.github.io/pomp/
+The code is running on python 3.8.6 and R 4.0.3.
+Most python packages and R packages used in the code can be installed directly via pip (for python) or install.packages() command (for R). Specially, running the SEIR+HD model code needs the pomp (version 3.6) page of R, the detail of this package can be found here: https://kingaa.github.io/pomp/
 
 ## Directory structure
 
