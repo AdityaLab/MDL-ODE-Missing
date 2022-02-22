@@ -5,7 +5,7 @@ Link to paper:
 ## Setup
 
 The code is running on python 3.8.6 and R 4.0.3.
-Most python packages and R packages used in the code can be installed directly via pip (for python) or install.packages() command (for R). Specially, running the SEIR+HD model code needs the pomp (version 3.6) page of R, the detail of this package can be found here: https://kingaa.github.io/pomp/
+Most python packages and R packages used in the code can be installed directly via pip (for python) or install.packages() command (for R). Specially, running the SEIR+HD model code needs the pomp (version 3.6) page of R, the detail of this package can be found here: https://kingaa.github.io/pomp/. The install will cost less than 1 hour.
 
 ## Directory structure
 
@@ -50,7 +50,7 @@ Most python packages and R packages used in the code can be installed directly v
 
 ### Step 1 Algorithm
 
-Run 'alpha.py' to do a linear search to find a good reported rate.
+Run 'alpha.py' to do a linear search to find a good reported rate. 
 
 ### Step 2 Algorithm
 
