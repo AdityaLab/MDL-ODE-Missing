@@ -165,9 +165,9 @@ if __name__ == "__main__":
 
   MDL(D_start,ParameterP,True)
  
-  #res = minimize(fun=MDL_step2, x0=D_start, args=(D_start,ParameterP), method='nelder-mead', options={'maxiter':10, 'xtol':1000, 'ftol':10})
+  res = minimize(fun=MDL_step2, x0=D_start, args=(D_start,ParameterP), method='nelder-mead', options={'maxiter':10, 'xtol':1000, 'ftol':10})
   
-  D_star = D_start#res.x
+  D_star = res.x
 
   with open('D_star.txt','w') as WriteFile:
     WriteFile.write(str(list(D_star)))
