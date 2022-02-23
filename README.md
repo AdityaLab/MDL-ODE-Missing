@@ -107,4 +107,4 @@ The final D* will be saved in D_star.txt.
 
 ### Demo Code
 
-We also provide a demo code to quickly run the MDL algorithms. Here, we save the step 1 calibration results for different reported rate alpha. Then by running the 'alpha.py' in step1 folder, the code will calculate and save the MDL cost in alpha.txt. You can then find the alpha* and run the step 2 algorithm.
+We also provide a demo code to quickly run the MDL algorithms. Here, we save the step 1 calibration results for different reported rate alpha. Then by running the 'alpha.py' in step1 folder, the code will calculate and save the MDL cost in alpha.txt. You can then find the alpha* and run the step 2 algorithm. The demo code usually take 1-2 hours to run.
