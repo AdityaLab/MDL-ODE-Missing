@@ -100,7 +100,7 @@ We integrate the datasets into each testbed, hence the datasets are in each fold
 
 ## Running the MDLINFER code
 
-### Step 1: Finding the reported rate alpha*
+### Step 1 of the MDLINFER: Finding the reported rate alpha*
 
 The step 1 of the MDLINFER is to find a good reported rate alpha*. You can run the step 1 algorithm in the step1 folder. The steps are as folllow: 
 
@@ -108,7 +108,7 @@ The step 1 of the MDLINFER is to find a good reported rate alpha*. You can run t
 (2) Run 'getting_alpha.py' to do a linear search to find a good reported rate alpha*.  
 (3) You can find the reported rate alpha* saved in the alpha.txt.
 
-### Step 2: Finding the total infections D*
+### Step 2 of the MDLINFER: Finding the total infections D*
 
 The step 2 of the MDLINFER is to find the total infections D*. You can run the step 2 algorithm in the step2 folder. The steps are as folllow: 
 
@@ -117,7 +117,7 @@ The step 2 of the MDLINFER is to find the total infections D*. You can run the s
 (3) Run 'getting_D.py' to use the Nelder-Mead to find the D* that minimizes MDL cost with reported rate constraints.  
 (4) You can find the total infections D* saved in D_star.txt.
 
-### Demo Code
+### Demo Code of the MDLINFER
 
 We also provide a demo code to run the MDLINFER. The steps are as folllow: 
 
