@@ -85,12 +85,17 @@ data.table
   The dataset used in this article are: 
 
 ### New York Times reported infections
-	This dataset consists of the daily time sequence of reported COVID-19 infections and the mortality (cumulative values) for each county in the US starting from January 21, 2020 to current. As of Feb 21, 2022, the number of reported infections is 78434184 and the mortality is 934659. More details can be found in: https://github.com/nytimes/covid-19-data.
-### Serological studies
-	This dataset consists of the point and 95% confidence interval estimates of the prevalence of antibodies to SARS-CoV-2 in 10 US locations every 3–4 weeks from March to July 2020. For each location, CDC works with commercial laboratories to collect blood specimens in the population and test about 1800 collected specimens every 3–4 weeks. More details can be found in: https://www.cdc.gov/coronavirus/2019-ncov/cases-updates/commercial-lab-surveys.html.
-### Symptomatic surveillance
-	This dataset consists of the point estimate (and standard error) of the COVID-related symptomatic rate for each county in the US starting from April 6, 2020 to date. The survey asks a series of questions on randomly sampled social media (Facebook) users to estimate the percentage of people who have a COVID-like symptoms such as the fever along with cough or shortness of breath or difficulty breathing on a given day. As of November 2021, the average number of Facebook survey responses each day is about 40,000, and overall it consists over 25 million survey responses. More details can be found in: https://cmu-delphi.github.io/delphi-epidata/api/covidcast-signals/fb-survey.html.
 
+This dataset consists of the daily time sequence of reported COVID-19 infections and the mortality (cumulative values) for each county in the US starting from January 21, 2020 to current. As of Feb 21, 2022, the number of reported infections is 78434184 and the mortality is 934659. More details can be found in: https://github.com/nytimes/covid-19-data.
+	
+### Serological studies
+	
+This dataset consists of the point and 95% confidence interval estimates of the prevalence of antibodies to SARS-CoV-2 in 10 US locations every 3–4 weeks from March to July 2020. For each location, CDC works with commercial laboratories to collect blood specimens in the population and test about 1800 collected specimens every 3–4 weeks. More details can be found in: https://www.cdc.gov/coronavirus/2019-ncov/cases-updates/commercial-lab-surveys.html.
+	
+### Symptomatic surveillance
+
+This dataset consists of the point estimate (and standard error) of the COVID-related symptomatic rate for each county in the US starting from April 6, 2020 to date. The survey asks a series of questions on randomly sampled social media (Facebook) users to estimate the percentage of people who have a COVID-like symptoms such as the fever along with cough or shortness of breath or difficulty breathing on a given day. As of November 2021, the average number of Facebook survey responses each day is about 40,000, and overall it consists over 25 million survey responses. More details can be found in: https://cmu-delphi.github.io/delphi-epidata/api/covidcast-signals/fb-survey.html.
+	
 We integrate the datasets into each testbed, hence the datasets are in each folder.
 
 ## Running the code
