@@ -98,13 +98,11 @@ This dataset consists of the point estimate (and standard error) of the COVID-re
 	
 We integrate the datasets into each testbed, hence the datasets are in each folder.
 
-## Running the code
+## Running the MDLINFER code
 
 ### Step 1: Finding the reported rate alpha*
 
-
-
-The step 1 is to find a good reported rate alpha*. You can run the step 1 algorithm in the step1 folder. The steps are as folllow: 
+The step 1 of the MDLINFER is to find a good reported rate alpha*. You can run the step 1 algorithm in the step1 folder. The steps are as folllow: 
 
 (1) For SAPHIRE model, please set the code_root in scripts_main/Run_SEIR_main_analysis.R as the step1 folder.  
 (2) Run 'getting_alpha.py' to do a linear search to find a good reported rate alpha*.  
@@ -112,7 +110,7 @@ The step 1 is to find a good reported rate alpha*. You can run the step 1 algori
 
 ### Step 2: Finding the total infections D*
 
-The step 2 is to find the total infections D*. You can run the step 2 algorithm in the step2 folder. The steps are as folllow: 
+The step 2 of the MDLINFER is to find the total infections D*. You can run the step 2 algorithm in the step2 folder. The steps are as folllow: 
 
 (1) For SAPHIRE model, please similarly set the code_root in scripts_main/Run_SEIR_main_analysis.R as the step2 folder.  
 (2) Copy the result.csv corresponding to the alpha* and paste to step 2 folder as a warm start.  
