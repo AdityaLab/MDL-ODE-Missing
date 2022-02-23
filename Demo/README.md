@@ -1,4 +1,4 @@
-We provide a demo code to run the MDLINFER. The steps are as folllow: 
+We also provide a demo code to run the MDLINFER. The steps are as folllow: 
 
 (1) Please set the code_root in scripts_main/Run_SEIR_main_analysis.R as the step1 folder and step2 folder path.  
 (2) Run the MDLINFER.sh to run the code.  

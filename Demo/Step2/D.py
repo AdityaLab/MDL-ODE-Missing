@@ -145,16 +145,30 @@ if __name__ == "__main__":
         f.write("\n")
         f.close()
         return cost
+
+  alpha_star = 0
+
+  with open('../Step1/alpha.txt','r') as ReadFile:
+    while (True):
+      Sentence = ReadFile.readline()
+      if not Sentence:
+        break
+      else:
+        if ("Reported rate" in Sentence):
+          Sentence = Sentence[24:]
+          alpha_star = float(Sentence)
   
-  alpha_star = 0.07
   D_start = np.copy(Reported) / alpha_star
+
+  with open('D.txt','w') as WriteFile:
+    pass
 
   MDL(D_start,ParameterP,True)
  
-  res = minimize(fun=MDL_step2, x0=D_start, args=(D_start,ParameterP), method='nelder-mead', options={'maxiter':10, 'xtol':1000, 'ftol':10})
+  #res = minimize(fun=MDL_step2, x0=D_start, args=(D_start,ParameterP), method='nelder-mead', options={'maxiter':10, 'xtol':1000, 'ftol':10})
   
-  D_star = res.x
+  D_star = D_start#res.x
 
-  with open('D_star.txt','a+') as WriteFile:
+  with open('D_star.txt','w') as WriteFile:
     WriteFile.write(str(list(D_star)))
     WriteFile.write('\n')

@@ -37,6 +37,9 @@ def TimeSeriesCost(x):
 
 if __name__ == "__main__":
 
+  AlphaArray = []
+  CostArray = []
+
   Reported = []
   with open ('data/data.csv','r') as CSVFileR:
     DataFile = csv.reader(CSVFileR)
@@ -120,6 +123,9 @@ if __name__ == "__main__":
     DataCost = TimeSeriesCost((((ReportedPP+UnreportedPP)-Reported[1:31])/(1.0-ReportRate))-(ReportedPP+UnreportedPP))
     MDLCost = ModelCost1 + ModelCost2 + ModelCost3 + DataCost
 
+    AlphaArray.append(alpha)
+    CostArray.append(MDLCost)
+
     with open('alpha.txt','a+') as WriteFile:
       WriteFile.write(str(alpha))
       WriteFile.write(',')
@@ -137,6 +143,9 @@ if __name__ == "__main__":
       WriteFile.write('\n')
 
     return MDLCost
+
+  with open('alpha.txt','w') as WriteFile:
+    pass
 
   MDL_alpha(0.03, ParameterP)
   MDL_alpha(0.04, ParameterP)
@@ -160,3 +169,15 @@ if __name__ == "__main__":
   MDL_alpha(0.30, ParameterP)
   MDL_alpha(0.40, ParameterP)
   MDL_alpha(0.50, ParameterP)
+
+  with open('alpha.txt','a+') as WriteFile:
+    WriteFile.write('Reported rate alpha* is '+str(AlphaArray[np.argmin(CostArray)]))
+
+  with open('output/result.csv','w') as WriteFile:
+    with open('output/result/result-'+str(AlphaArray[np.argmin(CostArray)])+'.csv','r') as ReadFile:
+      while (True):
+        Sentence = ReadFile.readline()
+        if not Sentence:
+          break
+        else:
+          WriteFile.write(Sentence)
