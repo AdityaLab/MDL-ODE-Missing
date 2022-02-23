@@ -1,6 +1,13 @@
 # MDLINFER: Information Theoretic Model Selection for Accurately Estimating Unreported COVID-19 Infections
 
+
+
 Link to paper: https://www.medrxiv.org/content/10.1101/2021.09.14.21263467v2
+
+To use this code, please cite the paper:
+'''
+Cui, Jiaming, Arash Haddadan, ASM Ahsan-Ul Haque, Bijaya Adhikari, Anil Vullikanti, and B. Aditya Prakash. "Information Theoretic Model Selection for Accurately Estimating Unreported COVID-19 Infections." medRxiv (2021): 2021-09.
+'''
 
 This code showcases that the optimal parameterization identified by our MDL framework MDLINFER is superior to baseline parameterization in (A) estimating total infections, (B) future projections on reported infections, and (C) predicting COVID-19 symptomatic rate trends. 
 
@@ -105,7 +112,7 @@ We integrate the datasets into each testbed, hence the datasets are in each fold
 The step 1 of the MDLINFER is to find a good reported rate alpha*. You can run the step 1 algorithm in the step1 folder. The steps are as folllow: 
 
 (1) For SAPHIRE model, please set the code_root in scripts_main/Run_SEIR_main_analysis.R as the step1 folder.  
-(2) Run 'getting_alpha.py' to do a linear search to find a good reported rate alpha*.  
+(2) Run 'alpha.py' to do a linear search to find a good reported rate alpha*.  
 (3) You can find the reported rate alpha* saved in the alpha.txt.
 
 ### Step 2 of the MDLINFER: Finding the total infections D*
@@ -115,7 +122,7 @@ The step 2 of the MDLINFER is to find the total infections D*. You can run the s
 (1) For SAPHIRE model, please similarly set the code_root in scripts_main/Run_SEIR_main_analysis.R as the step2 folder.  
 (2) Copy the result.csv corresponding to the alpha* and paste to step 2 folder as a warm start.  
 (3) Set the alpha_star as the alpha* found in step 1 in getting_D.py.  
-(4) Run 'getting_D.py' to use the Nelder-Mead to find the D* that minimizes MDL cost with reported rate constraints.    
+(4) Run 'D.py' to use the Nelder-Mead to find the D* that minimizes MDL cost with reported rate constraints.    
 (5) You can find the total infections D* saved in D_star.txt.
 
 ### Demo Code of the MDLINFER
