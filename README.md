@@ -121,7 +121,7 @@ The step 2 of the MDLINFER is to find the total infections D*. You can run the s
 
 We also provide a demo code to run the MDLINFER. The steps are as folllow: 
 
-(1) Please set the code_root in scripts_main/Run_SEIR_main_analysis.R as the step1 folder and step2 folder.  
+(1) Please set the code_root in scripts_main/Run_SEIR_main_analysis.R as the step1 folder and step2 folder path.  
 (2) Run the MDLINFER.sh to run the code.  
 (3) You can find the total infections D* saved in D_star.txt.
 
