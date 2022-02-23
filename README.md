@@ -106,25 +106,25 @@ We integrate the datasets into each testbed, hence the datasets are in each fold
 
 The step 1 is to find a good reported rate alpha*. You can run the step 1 algorithm in the step1 folder. The steps are as folllow: 
 
-(1) For SAPHIRE model, please set the code_root in scripts_main/Run_SEIR_main_analysis.R as the step1 folder.
-(2) Run 'getting_alpha.py' to do a linear search to find a good reported rate alpha*.
+(1) For SAPHIRE model, please set the code_root in scripts_main/Run_SEIR_main_analysis.R as the step1 folder.  
+(2) Run 'getting_alpha.py' to do a linear search to find a good reported rate alpha*.  
 (3) You can find the reported rate alpha* saved in the alpha.txt.
 
 ### Step 2: Finding the total infections D*
 
 The step 2 is to find the total infections D*. You can run the step 2 algorithm in the step2 folder. The steps are as folllow: 
 
-(1) For SAPHIRE model, please similarly set the code_root in scripts_main/Run_SEIR_main_analysis.R as the step2 folder. 
-(2) Copy the result.csv corresponding to the alpha* and paste to step 2 folder as a warm start.
-(3) Run 'getting_D.py' to use the Nelder-Mead to find the D* that minimizes MDL cost with reported rate constraints.
+(1) For SAPHIRE model, please similarly set the code_root in scripts_main/Run_SEIR_main_analysis.R as the step2 folder.  
+(2) Copy the result.csv corresponding to the alpha* and paste to step 2 folder as a warm start.  
+(3) Run 'getting_D.py' to use the Nelder-Mead to find the D* that minimizes MDL cost with reported rate constraints.  
 (4) You can find the total infections D* saved in D_star.txt.
 
 ### Demo Code
 
 We also provide a demo code to run the MDLINFER. The steps are as folllow: 
 
-(1) Please set the code_root in scripts_main/Run_SEIR_main_analysis.R as the step1 folder and step 2 folder.
-(2) Run the MDLINFER.sh to run the code.
+(1) Please set the code_root in scripts_main/Run_SEIR_main_analysis.R as the step1 folder and step2 folder.  
+(2) Run the MDLINFER.sh to run the code.  
 (3) You can find the total infections D* saved in D_star.txt.
 
 Here, we save the step 1 calibration results of attempting different reported rate alpha. The demo code usually take 1-2 hours to run.
