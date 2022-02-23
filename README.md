@@ -5,9 +5,9 @@
 Link to paper: https://www.medrxiv.org/content/10.1101/2021.09.14.21263467v2
 
 To use this code, please cite the paper:
-'''
+```
 Cui, Jiaming, Arash Haddadan, ASM Ahsan-Ul Haque, Bijaya Adhikari, Anil Vullikanti, and B. Aditya Prakash. "Information Theoretic Model Selection for Accurately Estimating Unreported COVID-19 Infections." medRxiv (2021): 2021-09.
-'''
+```
 
 This code showcases that the optimal parameterization identified by our MDL framework MDLINFER is superior to baseline parameterization in (A) estimating total infections, (B) future projections on reported infections, and (C) predicting COVID-19 symptomatic rate trends. 
 
