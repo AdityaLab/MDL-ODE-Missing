@@ -113,9 +113,9 @@ The step 1 of the MDLINFER is to find a good reported rate alpha*. You can run t
 The step 2 of the MDLINFER is to find the total infections D*. You can run the step 2 algorithm in the step2 folder. The steps are as folllow: 
 
 (1) For SAPHIRE model, please similarly set the code_root in scripts_main/Run_SEIR_main_analysis.R as the step2 folder.  
-(2) Copy the result.csv corresponding to the alpha* and paste to step 2 folder as a warm start.
-(3) Set the alpha_star as the alpha* found in step 1 in getting_D.py
-(4) Run 'getting_D.py' to use the Nelder-Mead to find the D* that minimizes MDL cost with reported rate constraints.  
+(2) Copy the result.csv corresponding to the alpha* and paste to step 2 folder as a warm start.  
+(3) Set the alpha_star as the alpha* found in step 1 in getting_D.py. 
+(4) Run 'getting_D.py' to use the Nelder-Mead to find the D* that minimizes MDL cost with reported rate constraints.    
 (5) You can find the total infections D* saved in D_star.txt.
 
 ### Demo Code of the MDLINFER
