@@ -140,7 +140,6 @@ if __name__ == "__main__":
 
     return MDLCost
 
-  '''
   MDL_alpha(0.01, ParameterP)
   MDL_alpha(0.02, ParameterP)
   MDL_alpha(0.03, ParameterP)
@@ -161,7 +160,6 @@ if __name__ == "__main__":
   MDL_alpha(0.18, ParameterP)
   MDL_alpha(0.19, ParameterP)
   MDL_alpha(0.20, ParameterP)
-  '''
   MDL_alpha(0.21, ParameterP)
   MDL_alpha(0.22, ParameterP)
   MDL_alpha(0.23, ParameterP)
@@ -189,4 +187,3 @@ if __name__ == "__main__":
   MDL_alpha(0.85, ParameterP)
   MDL_alpha(0.90, ParameterP)
   MDL_alpha(0.95, ParameterP)
-  

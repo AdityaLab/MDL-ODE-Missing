@@ -2,7 +2,7 @@
 ## code_root should be set to the directory where the repository README file is located. 
 ## For more information, please read the repository README file
 code_root="$PATH$"
-1
+
 setwd(paste0(code_root, "scripts_main"))
 library(BayesianTools)
 library(vioplot)

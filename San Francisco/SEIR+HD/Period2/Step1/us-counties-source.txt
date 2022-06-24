@@ -1,0 +1,18 @@
+X,date,county,state,fips,cases,deaths
+48,2020-03-18,San Francisco,San Francisco,06085,434,7
+49,2020-03-19,San Francisco,San Francisco,06085,503,9
+50,2020-03-20,San Francisco,San Francisco,06085,587,11
+51,2020-03-21,San Francisco,San Francisco,06085,683,13
+52,2020-03-22,San Francisco,San Francisco,06085,786,16
+53,2020-03-23,San Francisco,San Francisco,06085,895,19
+54,2020-03-24,San Francisco,San Francisco,06085,1021,23
+55,2020-03-25,San Francisco,San Francisco,06085,1153,26
+56,2020-03-26,San Francisco,San Francisco,06085,1299,31
+57,2020-03-27,San Francisco,San Francisco,06085,1457,35
+58,2020-03-28,San Francisco,San Francisco,06085,1624,40
+59,2020-03-29,San Francisco,San Francisco,06085,1797,45
+60,2020-03-30,San Francisco,San Francisco,06085,1982,50
+61,2020-03-31,San Francisco,San Francisco,06085,2166,55
+62,2020-04-01,San Francisco,San Francisco,06085,2353,61
+63,2020-04-02,San Francisco,San Francisco,06085,2541,67
+64,2020-04-03,San Francisco,San Francisco,06085,2728,72

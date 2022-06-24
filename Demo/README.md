@@ -4,4 +4,4 @@ We also provide a demo code to run MDLINFER. The steps are as follow:
 (2) Run the MDLINFER.sh.  
 (3) You can find the total infections D* saved in D_star.txt.
 
-This demo code is for South Florida from May 28, 2020 to June 28, 2020 on the SAPHIRE model. Here, we save the step 1 calibration results of attempting different reported rate alpha. The demo code usually takes 1-2 hours to run.
+This demo code is based on the SAPHIRE model. Here, we save the step 1 calibration results of attempting different reported rate alpha. The demo code usually takes 1-2 hours to run.

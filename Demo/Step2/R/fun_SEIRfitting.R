@@ -80,10 +80,10 @@ SEIRfitting=function(init_sets_list,
       if (any(p_unreported == 0)) {
         p_unreported[which(p_unreported==0)] = min(p_unreported[p_unreported!=0])
         #p_unreported[which(p_unreported==Inf)] = 1e-200
-        logL = logL + 0.1*sum(log10(p_unreported))
+        logL = logL + sum(log10(p_unreported))
       }
       else {
-        logL = logL + 0.1*sum(log10(p_unreported))
+        logL = logL + sum(log10(p_unreported))
       }
     }
     return(logL)

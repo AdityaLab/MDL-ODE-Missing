@@ -43,11 +43,11 @@ if __name__ == "__main__":
     Sentence = next(DataFile)
     casesyesterday = 0
     for Sentence in DataFile:
-      X,date,county,state,fips,cases,deaths = Sentence
+      X,date,county,state,fips,cases,deaths,uncases = Sentence
       Reported.append(int(cases)-int(casesyesterday))
       casesyesterday = cases
 
-  Reported = np.array(Reported[:31])
+  Reported = np.array(Reported[20:42])
 
   ReportedP = []
   UnreportedP = []
@@ -60,8 +60,8 @@ if __name__ == "__main__":
       ReportedP.append(int(case))
       UnreportedP.append(int(uncase))
 
-  ReportedP = np.array(ReportedP[:30])
-  UnreportedP = np.array(UnreportedP[:30])
+  ReportedP = np.array(ReportedP[:21])
+  UnreportedP = np.array(UnreportedP[:21])
 
   ParameterP = [np.sum(ReportedP)/(np.sum(ReportedP)+np.sum(UnreportedP))]
   ParameterP = np.array(ParameterP)
@@ -74,9 +74,9 @@ if __name__ == "__main__":
         DataFile = csv.reader(CSVFileR)
         Sentence = next(DataFile)
         SolutionFile.writerow(['OnsetDate','CaseNum','CaseSum','UncaseNum','UncaseSum'])
-        for counter in range(31):
+        for counter in range(22):
           Sentence = next(DataFile)
-          X,date,county,state,fips,cases,deaths = Sentence
+          X,date,county,state,fips,cases,deaths,uncases = Sentence
           SolutionFile.writerow([date,str(Reported[counter]),str(int(np.sum(Reported[:1+counter]))),str(int(D[counter])-int(Reported[counter])),str(int(np.sum(D[:1+counter]))-int(np.sum(Reported[:1+counter])))]) 
     
     if(True):
@@ -94,8 +94,8 @@ if __name__ == "__main__":
             ReportedPP.append(int(case))
             UnreportedPP.append(int(uncase))
 
-        ReportedPP = np.array(ReportedPP[:30])
-        UnreportedPP = np.array(UnreportedPP[:30])
+        ReportedPP = np.array(ReportedPP[:21])
+        UnreportedPP = np.array(UnreportedPP[:21])
       
         ParameterPP = [np.sum(ReportedPP)/(np.sum(ReportedPP)+np.sum(UnreportedPP))]
         ParameterPP = np.array(ParameterPP)
@@ -104,8 +104,8 @@ if __name__ == "__main__":
         
         ModelCost1 = VectorCost(ParameterP)
         ModelCost2 = VectorCost(ParameterPP - ParameterP)
-        ModelCost3 = TimeSeriesCost(ReportRate*D[1:31] - ReportedP)
-        DataCost = TimeSeriesCost(((D[1:31]-Reported[1:31])/(1.0-ReportRate))-(ReportedPP+UnreportedPP))
+        ModelCost3 = TimeSeriesCost(ReportRate*D[1:22] - ReportedP)
+        DataCost = TimeSeriesCost(((D[1:22]-Reported[1:22])/(1.0-ReportRate))-(ReportedPP+UnreportedPP))
         MDLCost = ModelCost1 + ModelCost2 + ModelCost3 + DataCost
       #  break
       #except:
@@ -145,30 +145,16 @@ if __name__ == "__main__":
         f.write("\n")
         f.close()
         return cost
-
-  alpha_star = 0
-
-  with open('../Step1/alpha.txt','r') as ReadFile:
-    while (True):
-      Sentence = ReadFile.readline()
-      if not Sentence:
-        break
-      else:
-        if ("Reported rate" in Sentence):
-          Sentence = Sentence[24:]
-          alpha_star = float(Sentence)
   
+  alpha_star = 0.22
   D_start = np.copy(Reported) / alpha_star
-
-  with open('D.txt','w') as WriteFile:
-    pass
 
   MDL(D_start,ParameterP,True)
  
-  res = minimize(fun=MDL_step2, x0=D_start, args=(D_start,ParameterP), method='nelder-mead', options={'maxiter':10, 'xtol':1000, 'ftol':10})
+  res = minimize(fun=MDL_step2, x0=D_start, args=(D_start,ParameterP), method='nelder-mead', options={'maxiter':10, 'xatol':2500, 'fatol':100})
   
   D_star = res.x
 
-  with open('D_star.txt','w') as WriteFile:
+  with open('D_star.txt','a+') as WriteFile:
     WriteFile.write(str(list(D_star)))
     WriteFile.write('\n')

@@ -153,4 +153,3 @@ if __name__ == "__main__":
   MDL_alpha(0.15, ParameterP)
   MDL_alpha(0.20, ParameterP)
   MDL_alpha(0.30, ParameterP)
-

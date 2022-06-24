@@ -5,7 +5,7 @@ generate_init_condi <- function(r0,
                                 Dq = c(6),
                                 alpha = 0.55,
                                 Dh = 30,
-                                N = 6345345,
+                                N = 1000000,
                                 flowN = c(0, 0)
                                 ) {
   
@@ -25,9 +25,9 @@ generate_init_condi <- function(r0,
   jan1_idx = 1#25
   
   #cases from Jan 1 to Feb 29
-  daily_new_case <- realData[1:30, 1]
+  daily_new_case <- realData[1:21, 1]
   daily_new_case_all <- realData[, 1]
-  daily_new_uncase <- realData[1:30, 3]
+  daily_new_uncase <- realData[1:21, 3]
   daily_new_uncase_all <- realData[, 3]
   r0 = sum(daily_new_case) / (sum(daily_new_case)+sum(daily_new_uncase))
   ##
@@ -39,7 +39,8 @@ generate_init_condi <- function(r0,
   # I0 <- 11 + 13 + 10                                     
   A0 <- I0 * (1 - r0) / r0
   S0 <- N - E0 - P0 - I0 - A0 - H0 - R0
-  init_states <- round(c(S = 5906138, E = 13480, P = 10819, I = 639, A = 12879, H = 3354, R = 398037), 0)
+  init_states <- round(c(S = 999270, E = 144, P = 100, I = 15, A = 85, H = 21, R = 365), 0)
+
   ## helper function
   # transform variables to a form that SEIRpred can use
   # so that SEIRpred can be re-used as much as possible
@@ -66,9 +67,9 @@ generate_init_condi <- function(r0,
               daily_new_uncase = daily_new_uncase, 
               daily_new_uncase_all = daily_new_uncase_all, 
               init_states = init_states,
-              days_to_fit=1:30,
+              days_to_fit=1:20,
               stage_intervals=list(
-                c(start=1, end=30)
+                c(start=1, end=20)
               ),
               var_trans_fun=transform_var_main_5stage,
          par_lower = c(b1 = 0, r1 = 0),

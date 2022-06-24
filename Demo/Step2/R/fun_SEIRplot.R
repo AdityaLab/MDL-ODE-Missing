@@ -34,7 +34,8 @@ SEIRplot <- function(pars_estimate, file_name, init_settings, panel_B_R_ylim=4) 
   estN_up <- round(apply(estN_mat, 1, function(x) quantile(x, 0.975)), 0)
   estN_low <- round(apply(estN_mat, 1, function(x) quantile(x, 0.025)), 0)
   Result = cbind(S=estN_mean[0:120],E=estN_mean[121:240],P=estN_mean[241:360],I=estN_mean[361:480],A=estN_mean[481:600],H=estN_mean[601:720],R=estN_mean[721:840],Onset_expect=estN_mean[841:960],Onset_unreported_expect=estN_mean[961:1080])
-  write.csv(x = Result,file = "../output/result.csv")  
+  write.csv(x = Result,file = "../output/result.csv")
+  
   # # start A
   # plot(ptime, estN_mean, ylim = c(0, max(estN_up, onset_obs_all) * 1.05), xlab = "", ylab = "", type = "p", col = "white", pch = 16, xaxt="n", cex = 0.5)
   # mtext("Onset date (2020)", side = 1, line  = 3, cex = 1.01)

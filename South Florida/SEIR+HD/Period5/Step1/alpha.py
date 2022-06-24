@@ -70,80 +70,6 @@ if __name__ == "__main__":
   ParameterP = [DataSelected["beta0est"].to_list()[4], DataSelected["alphaest"].to_list()[4], DataSelected["alpha1est"].to_list()[4]]
   ParameterP = np.array(ParameterP)
 
-  def MDL(D, ParameterP):
-
-    SumD = [0]*31
-    SumD[0] = D[0]
-    for counter in range(1,31):
-      SumD[counter] = SumD[counter-1] + D[counter]
-    
-    with open('us-counties.txt','w') as WriteFile:
-      with open('us-counties-source.txt','r') as ReadFile:
-        Sentence = ReadFile.readline()
-        Sentence = Sentence[0:len(Sentence)-1] + ',uncases\n'
-        WriteFile.write(Sentence)
-        for counter in range(31):
-          Sentence = ReadFile.readline()
-          if not Sentence:
-            print ("Error!")
-          Sentence = Sentence[0:len(Sentence)-1] + ',' + str(int(SumD[counter]-ReportedSum[counter])) + '\n'
-          WriteFile.write(Sentence)
-          
-    while(True):
-      try:
-        os.system("Rscript COVID_fit.R")
-
-        DataFile = pd.read_csv("result.csv")
-        
-        DataSelected = DataFile[(DataFile[".id"] == "median")]
-        DataSelected = DataSelected["D_new_reported"].tolist()
-        ReportedPP = DataSelected[1:31]
-        ReportedPP = np.array(ReportedPP)
-        
-        DataSelected = DataFile[(DataFile[".id"] == "median")]
-        DataSelected = DataSelected["D_new_unreported"].tolist()
-        UnreportedPP = DataSelected[1:31]
-        UnreportedPP = np.array(UnreportedPP)
-
-        DataSelected = DataFile[(DataFile[".id"] == "median")]
-        DataSelected = DataSelected["dIpIs_save"].tolist()
-        dIpIs = DataSelected[1:31]
-        dIpIs = np.array(dIpIs)
-
-        DataSelected = DataFile[(DataFile[".id"] == "median")]
-        DataSelected = DataSelected["dIpIm_save"].tolist()
-        dIpIm = DataSelected[1:31]
-        dIpIm = np.array(dIpIm)
-
-        DataSelected = DataFile[(DataFile[".id"] == "median")]
-        DataSelected = DataSelected["dEIa_save"].tolist()
-        dEIa = DataSelected[1:31]
-        dEIa = np.array(dEIa)
-      
-        DataFile = pd.read_csv("parameter.csv")
-        DataSelected = DataFile[(DataFile["sim_start"] == "2020-05-29")]
-        ParameterPP = [DataSelected["beta0est"].to_list()[4], DataSelected["alphaest"].to_list()[4], DataSelected["alpha1est"].to_list()[4]]
-        ParameterPP = np.array(ParameterPP)
-
-        ReportRate = (ParameterPP[2]*(np.sum(dIpIs)+np.sum(dIpIm)))/(np.sum(dIpIs)+np.sum(dIpIm)+np.sum(dEIa))
-
-        ModelCost1 = VectorCost(ParameterP)
-        ModelCost2 = VectorCost(ParameterPP - ParameterP)
-        ModelCost3 = TimeSeriesCost(ReportRate*D - ReportedP)
-        DataCost = TimeSeriesCost(((D-Reported[1:31])/(1.0-ReportRate))-(ReportedPP+UnreportedPP))
-        MDLCost = ModelCost1 + ModelCost2 + ModelCost3 + DataCost
-        break
-      except:
-        pass
-
-    with open('D.txt','a+') as WriteFile:
-      WriteFile.write(str(list(D)))
-      WriteFile.write('\t')
-      WriteFile.write(str(MDLCost))
-      WriteFile.write('\n')
-
-    return MDLCost
-
   def MDL_alpha(alpha, ParameterP):
     
     D = Reported / alpha
@@ -248,7 +174,6 @@ if __name__ == "__main__":
 
     return MDLCost
 
-  '''
   MDL_alpha(0.01, ParameterP)
   MDL_alpha(0.02, ParameterP)
   MDL_alpha(0.03, ParameterP)
@@ -272,5 +197,3 @@ if __name__ == "__main__":
   MDL_alpha(0.25, ParameterP)
   MDL_alpha(0.30, ParameterP)
   MDL_alpha(0.40, ParameterP)
-  '''
-  MDL_alpha(0.12, ParameterP)

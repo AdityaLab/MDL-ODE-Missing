@@ -27,7 +27,7 @@ if __name__ == "__main__":
     Reported = np.array(Reported)
 
     XNumber = [26,56]
-    XDate = ["Apr 1","May 1"]
+    XDate = ["Apr 1\n","May 1\n"]
 
     DataFile = pd.read_csv("Minneapolis-Mordecai/result-original.csv")
     DataSelected = DataFile[(DataFile[".id"] == "median")]
@@ -89,8 +89,8 @@ if __name__ == "__main__":
     ReportedPP75 = DataSelected["D_new_reported"].to_list()[25:67+future]
     UnreportedPP75 = DataSelected["D_new_unreported"].to_list()[25:67+future]
     
-    plt.subplot(1,3,2)
-    plt.title("Minneapolis (SEIR+HD) " + r'\textsc{BaseParam}'+" simulation", fontsize=14)
+    plt.subplot(1,3,3)
+    plt.title('\n', fontsize=16)
 
     plt.plot(X,ReportedP75,label="Isolate 75\% pre/asymptomatic infections",linewidth=3,color='#33CC33')
     plt.plot(X,ReportedP50,label="Isolate 50\% pre/asymptomatic infections",linewidth=3,color='#7BDE2F')
@@ -101,7 +101,7 @@ if __name__ == "__main__":
 
     plt.axvline(x = 41,color='#929591',linewidth=1,linestyle="dashdot")
 
-    plt.xlabel('(b)', fontsize=18)
+    plt.xlabel('\n', fontsize=18)
     plt.ylabel('Reported infections', fontsize=18)
 
     plt.xticks(XNumber,XDate,fontsize=14)
@@ -113,11 +113,11 @@ if __name__ == "__main__":
     plt.gca().yaxis.set_major_formatter(mf)
     plt.gca().yaxis.get_offset_text().set(size=14)
     
-    plt.legend(fontsize=14)
+    plt.legend(fontsize=14,loc=2)
     plt.tight_layout()
     
-    plt.subplot(1,3,3)
-    plt.title("Minneapolis (SEIR+HD) " + r'\textsc{MdlParam}'+" simulation", fontsize=14)
+    plt.subplot(1,3,2)
+    plt.title('\n', fontsize=16)
 
     plt.plot(X,ReportedPP75,label="Isolate 75\% pre/asymptomatic infections",linewidth=3,color='#33CC33')
     plt.plot(X,ReportedPP50,label="Isolate 50\% pre/asymptomatic infections",linewidth=3,color='#7BDE2F')
@@ -128,7 +128,7 @@ if __name__ == "__main__":
 
     plt.axvline(x = 41,color='#929591',linewidth=1,linestyle="dashdot")
 
-    plt.xlabel('(c)', fontsize=18)
+    plt.xlabel('\n', fontsize=18)
     plt.ylabel('Reported infections', fontsize=18)
 
     plt.xticks(XNumber,XDate,fontsize=14)
@@ -140,11 +140,11 @@ if __name__ == "__main__":
     plt.gca().yaxis.set_major_formatter(mf)
     plt.gca().yaxis.get_offset_text().set(size=14)
     
-    plt.legend(fontsize=14)
+    plt.legend(fontsize=14,loc=2)
     plt.tight_layout()
 
     plt.subplot(1,3,1)
-    plt.title("Minneapolis (SEIR+HD) " + "cumulative reported rate", fontsize=14)
+    plt.title("\n", fontsize=16)
 
     plt.plot(X,np.array(ReportedSum)/np.cumsum(np.array(ReportedP)+np.array(UnreportedP)),label=r'\textsc{BaseParam}'+r'$_{\mathrm{Rate}}$',linewidth=3,color='#2166AC')
     plt.plot(X,np.array(ReportedSum)/np.cumsum(np.array(ReportedPP)+np.array(UnreportedPP)),label=r'\textsc{MdlParam}'+r'$_{\mathrm{Rate}}$',linewidth=3,color='#EA604D')
@@ -154,9 +154,9 @@ if __name__ == "__main__":
     plt.plot([47,49], [ReportedSum[49]/(38574.79*1.0), ReportedSum[49]/(38574.79*1.0)],linewidth=2,color='#000000')
     plt.plot([47,49], [ReportedSum[49]/(38574.79*4.5), ReportedSum[49]/(38574.79*4.5)],linewidth=2,color='#000000')
 
-    plt.axvline(x = 41,color='#929591',linewidth=1,linestyle="dashdot")
+    #plt.axvline(x = 41,color='#929591',linewidth=1,linestyle="dashdot")
 
-    plt.xlabel('(a)', fontsize=18)
+    plt.xlabel('\n', fontsize=18)
     plt.ylabel('Cumulative reported rate', fontsize=18)
 
     plt.xticks(XNumber,XDate,fontsize=14)
@@ -168,7 +168,12 @@ if __name__ == "__main__":
     plt.gca().yaxis.set_major_formatter(mf)
     plt.gca().yaxis.get_offset_text().set(size=14)
     
-    plt.legend(fontsize=14)
+    plt.legend(fontsize=14,loc=2)
+
+    plt.figtext(x=0.02, y=0.97 ,s=r'$\textbf{a}$'+' '+'Cumulative reported rate',ha='left',va='center',fontsize=20)
+    plt.figtext(x=0.35, y=0.97 ,s=r'$\textbf{b}$'+' '+r'\textsc{MdlParam}'+" simulation",ha='left',va='center',fontsize=20)
+    plt.figtext(x=0.68, y=0.97 ,s=r'$\textbf{c}$'+' '+r'\textsc{BaseParam}'+" simulation",ha='left',va='center',fontsize=20)
+
     plt.tight_layout()
 
     plt.savefig('Figure5.pdf')
