@@ -622,7 +622,7 @@ if __name__ == "__main__":
     plt.bar([1,2,3,4],np.array(TrainingRMSEP1)/np.array(TrainingRMSEPP1),width=0.4,label='observed period',color='#33CC33')
     plt.bar([5,6,7,8],np.array(TestingRMSEP1)/np.array(TestingRMSEPP1),width=0.4,label='forecast period',color='#8a2be2')
     
-    plt.xticks([1,2,3,4,5,6,7,8],['a','b','c','d','a','b','c','d'], fontsize=12)
+    plt.xticks([1,2,3,4,5,6,7,8],['A','B','C','D','A','B','C','D'], fontsize=12)
     plt.yticks([0,1,2,3,4,5,7,8],fontsize=12)
     plt.ylim(0,4)
 
@@ -631,7 +631,7 @@ if __name__ == "__main__":
     plt.gca().yaxis.set_major_formatter(mf)
     plt.gca().yaxis.get_offset_text().set(size=12)
 
-    plt.axhline(y = 1,color='#929591',linewidth=1,linestyle="dashdot")
+    plt.axhline(y = 1,color='#929591',linewidth=1)
     
     plt.xlim(0,9)
     plt.xlabel("", fontsize=18)
@@ -644,7 +644,7 @@ if __name__ == "__main__":
     plt.bar([1,2,3,4],np.array(TrainingRMSEP2)/np.array(TrainingRMSEPP2),width=0.4,label='observed period',color='#33CC33')
     plt.bar([5,6,7,8],np.array(TestingRMSEP2)/np.array(TestingRMSEPP2),width=0.4,label='forecast period',color='#8a2be2')
 
-    plt.xticks([1,2,3,4,5,6,7,8],['e','f','g','h','e','f','g','h'], fontsize=12)
+    plt.xticks([1,2,3,4,5,6,7,8],['E','F','G','H','E','F','G','H'], fontsize=12)
     plt.yticks([0,1,2,3,4,5,6,7,8],fontsize=12)
     plt.ylim(0,4)
     
@@ -653,24 +653,24 @@ if __name__ == "__main__":
     plt.gca().yaxis.set_major_formatter(mf)
     plt.gca().yaxis.get_offset_text().set(size=12)
 
-    plt.axhline(y = 1,color='#929591',linewidth=1,linestyle="dashdot")
+    plt.axhline(y = 1,color='#929591',linewidth=1)
     
     plt.xlim(0,9)
     plt.xlabel("\n", fontsize=18)
     plt.ylabel('\nPerformance '+r'$\rho_{\mathrm{Rinf}}$', fontsize=18)
     plt.title("\n\nModel: SEIR+HD", fontsize=14)
     
-    plt.figtext(x=0.02, y=0.96 ,s=r'$\textbf{a}$'+' Minneapolis-Spring-20',ha='left',va='center',fontsize=20)
-    plt.figtext(x=0.22, y=0.96 ,s=r'$\textbf{b}$'+' Minneapolis-Fall-20',ha='left',va='center',fontsize=20)
-    plt.figtext(x=0.42, y=0.96 ,s=r'$\textbf{c}$'+' South Florida-Spring-20',ha='left',va='center',fontsize=20)
-    plt.figtext(x=0.62, y=0.96 ,s=r'$\textbf{d}$'+' South Florida-Fall-20',ha='left',va='center',fontsize=20)
-    plt.figtext(x=0.82, y=0.96 ,s=r'$\textbf{i}$'+' Performance',ha='left',va='center',fontsize=20)
+    plt.figtext(x=0.02, y=0.96 ,s=r'$(\textbf{A})$'+' Minneapolis-Spring-20',ha='left',va='center',fontsize=20)
+    plt.figtext(x=0.22, y=0.96 ,s=r'$(\textbf{B})$'+' Minneapolis-Fall-20',ha='left',va='center',fontsize=20)
+    plt.figtext(x=0.42, y=0.96 ,s=r'$(\textbf{C})$'+' South Florida-Spring-20',ha='left',va='center',fontsize=20)
+    plt.figtext(x=0.62, y=0.96 ,s=r'$(\textbf{D})$'+' South Florida-Fall-20',ha='left',va='center',fontsize=20)
+    plt.figtext(x=0.82, y=0.96 ,s=r'$(\textbf{I})$'+' Performance',ha='left',va='center',fontsize=20)
     
-    plt.figtext(x=0.02, y=0.47 ,s=r'$\textbf{e}$'+' Minneapolis-Spring-20',ha='left',va='center',fontsize=20)
-    plt.figtext(x=0.22, y=0.47 ,s=r'$\textbf{f}$'+' Minneapolis-Fall-20',ha='left',va='center',fontsize=20)
-    plt.figtext(x=0.42, y=0.47 ,s=r'$\textbf{g}$'+' South Florida-Spring-20',ha='left',va='center',fontsize=20)
-    plt.figtext(x=0.62, y=0.47 ,s=r'$\textbf{h}$'+' South Florida-Fall-20',ha='left',va='center',fontsize=20)
-    plt.figtext(x=0.82, y=0.47 ,s=r'$\textbf{j}$'+' Performance',ha='left',va='center',fontsize=20)
+    plt.figtext(x=0.02, y=0.47 ,s=r'$(\textbf{E})$'+' Minneapolis-Spring-20',ha='left',va='center',fontsize=20)
+    plt.figtext(x=0.22, y=0.47 ,s=r'$(\textbf{F})$'+' Minneapolis-Fall-20',ha='left',va='center',fontsize=20)
+    plt.figtext(x=0.42, y=0.47 ,s=r'$(\textbf{G})$'+' South Florida-Spring-20',ha='left',va='center',fontsize=20)
+    plt.figtext(x=0.62, y=0.47 ,s=r'$(\textbf{H})$'+' South Florida-Fall-20',ha='left',va='center',fontsize=20)
+    plt.figtext(x=0.82, y=0.47 ,s=r'$(\textbf{J})$'+' Performance',ha='left',va='center',fontsize=20)
 
     plt.tight_layout()
 
