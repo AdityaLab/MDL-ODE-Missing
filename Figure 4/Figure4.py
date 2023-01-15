@@ -532,10 +532,10 @@ if __name__ == "__main__":
     plt.tight_layout()
 
     
-    plt.figtext(x=0.02, y=0.95 ,s=r'$\textbf{a}$'+' Minneapolis-Spring-20',ha='left',va='center',fontsize=20)
-    plt.figtext(x=0.27, y=0.95 ,s=r'$\textbf{b}$'+' Minneapolis-Fall-20',ha='left',va='center',fontsize=20)
-    plt.figtext(x=0.52, y=0.95 ,s=r'$\textbf{c}$'+' South Florida-Spring-20',ha='left',va='center',fontsize=20)
-    plt.figtext(x=0.77, y=0.95 ,s=r'$\textbf{d}$'+' South Florida-Fall-20',ha='left',va='center',fontsize=20)
+    plt.figtext(x=0.02, y=0.95 ,s=r'$(\textbf{A})$'+' Minneapolis-Spring-20',ha='left',va='center',fontsize=20)
+    plt.figtext(x=0.27, y=0.95 ,s=r'$(\textbf{B})$'+' Minneapolis-Fall-20',ha='left',va='center',fontsize=20)
+    plt.figtext(x=0.52, y=0.95 ,s=r'$(\textbf{C})$'+' South Florida-Spring-20',ha='left',va='center',fontsize=20)
+    plt.figtext(x=0.77, y=0.95 ,s=r'$(\textbf{D})$'+' South Florida-Fall-20',ha='left',va='center',fontsize=20)
 
     plt.tight_layout()
 
