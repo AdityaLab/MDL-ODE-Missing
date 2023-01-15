@@ -170,9 +170,9 @@ if __name__ == "__main__":
     
     plt.legend(fontsize=14,loc=2)
 
-    plt.figtext(x=0.02, y=0.97 ,s=r'$\textbf{a}$'+' '+'Cumulative reported rate',ha='left',va='center',fontsize=20)
-    plt.figtext(x=0.35, y=0.97 ,s=r'$\textbf{b}$'+' '+r'\textsc{MdlParam}'+" simulation",ha='left',va='center',fontsize=20)
-    plt.figtext(x=0.68, y=0.97 ,s=r'$\textbf{c}$'+' '+r'\textsc{BaseParam}'+" simulation",ha='left',va='center',fontsize=20)
+    plt.figtext(x=0.02, y=0.97 ,s=r'$(\textbf{A})$'+' '+'Cumulative reported rate',ha='left',va='center',fontsize=20)
+    plt.figtext(x=0.35, y=0.97 ,s=r'$(\textbf{B})$'+' '+r'\textsc{MdlParam}'+" simulation",ha='left',va='center',fontsize=20)
+    plt.figtext(x=0.68, y=0.97 ,s=r'$(\textbf{C})$'+' '+r'\textsc{BaseParam}'+" simulation",ha='left',va='center',fontsize=20)
 
     plt.tight_layout()
 
