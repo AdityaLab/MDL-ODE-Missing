@@ -3,9 +3,9 @@ import matplotlib.lines as lines
 import matplotlib.pyplot as plt
 import matplotlib.ticker
 import matplotlib as mpl
-#from matplotlib import rcParams
-#mpl.rcParams['text.usetex'] = True
-#mpl.rcParams['text.latex.preamble'] = [r'\usepackage{amsmath}']
+from matplotlib import rcParams
+mpl.rcParams['text.usetex'] = True
+mpl.rcParams['text.latex.preamble'] = [r'\usepackage{amsmath}']
 import pandas as pd
 import numpy as np
 import math
@@ -1029,7 +1029,7 @@ if __name__ == "__main__":
 
     plt.bar([1,2,3,4],np.array(TINFRMSE1),width=0.4,label=r'$\rho_{\mathrm{Tinf}}$',color='#33CC33')
     
-    plt.xticks([1,2,3,4],['a','b','c','d'], fontsize=12)
+    plt.xticks([1,2,3,4],['A','B','C','D'], fontsize=12)
     plt.yticks([0,1,2,3,4,5,6,7,8],fontsize=12)
     plt.ylim(0,8)
 
@@ -1050,7 +1050,7 @@ if __name__ == "__main__":
 
     plt.bar([1,2,3,4],np.array(TINFRMSE2),width=0.4,label=r'$\rho_{\mathrm{Tinf}}$',color='#33CC33')
     
-    plt.xticks([1,2,3,4],['e','f','g','h'], fontsize=12)
+    plt.xticks([1,2,3,4],['E','F','G','H'], fontsize=12)
     plt.yticks([0,1,2,3,4,5,6,7,8],fontsize=12)
     plt.ylim(0,8)
 
@@ -1075,17 +1075,17 @@ if __name__ == "__main__":
     #plt.figtext(x=0.91, y=0.55 ,s='(e)',ha='center',va='center',fontsize=18)
     #plt.figtext(x=0.91, y=0.06 ,s='(f)',ha='center',va='center',fontsize=18)
 
-    plt.figtext(x=0.02, y=0.96 ,s=r'$\textbf{a}$'+' Minneapolis-Spring-20',ha='left',va='center',fontsize=20)
-    plt.figtext(x=0.22, y=0.96 ,s=r'$\textbf{b}$'+' South Florida-Spring-20',ha='left',va='center',fontsize=20)
-    plt.figtext(x=0.42, y=0.96 ,s=r'$\textbf{c}$'+' Philadelphia-Spring-20',ha='left',va='center',fontsize=20)
-    plt.figtext(x=0.62, y=0.96 ,s=r'$\textbf{d}$'+' San Francisco-Spring-20',ha='left',va='center',fontsize=20)
-    plt.figtext(x=0.82, y=0.96 ,s=r'$\textbf{i}$'+' Performance',ha='left',va='center',fontsize=20)
+    plt.figtext(x=0.02, y=0.96 ,s=r'$(\textbf{A})$'+' Minneapolis-Spring-20',ha='left',va='center',fontsize=20)
+    plt.figtext(x=0.22, y=0.96 ,s=r'$(\textbf{B})$'+' South Florida-Spring-20',ha='left',va='center',fontsize=20)
+    plt.figtext(x=0.42, y=0.96 ,s=r'$(\textbf{C})$'+' Philadelphia-Spring-20',ha='left',va='center',fontsize=20)
+    plt.figtext(x=0.62, y=0.96 ,s=r'$(\textbf{D})$'+' San Francisco-Spring-20',ha='left',va='center',fontsize=20)
+    plt.figtext(x=0.82, y=0.96 ,s=r'$(\textbf{I})$'+' Performance',ha='left',va='center',fontsize=20)
     
-    plt.figtext(x=0.02, y=0.47 ,s=r'$\textbf{e}$'+' Minneapolis-Spring-20',ha='left',va='center',fontsize=20)
-    plt.figtext(x=0.22, y=0.47 ,s=r'$\textbf{f}$'+' South Florida-Spring-20',ha='left',va='center',fontsize=20)
-    plt.figtext(x=0.42, y=0.47 ,s=r'$\textbf{g}$'+' Philadelphia-Spring-20',ha='left',va='center',fontsize=20)
-    plt.figtext(x=0.62, y=0.47 ,s=r'$\textbf{h}$'+' San Francisco-Spring-20',ha='left',va='center',fontsize=20)
-    plt.figtext(x=0.82, y=0.47 ,s=r'$\textbf{j}$'+' Performance',ha='left',va='center',fontsize=20)
+    plt.figtext(x=0.02, y=0.47 ,s=r'$(\textbf{E})$'+' Minneapolis-Spring-20',ha='left',va='center',fontsize=20)
+    plt.figtext(x=0.22, y=0.47 ,s=r'$(\textbf{F})$'+' South Florida-Spring-20',ha='left',va='center',fontsize=20)
+    plt.figtext(x=0.42, y=0.47 ,s=r'$(\textbf{G})$'+' Philadelphia-Spring-20',ha='left',va='center',fontsize=20)
+    plt.figtext(x=0.62, y=0.47 ,s=r'$(\textbf{H})$'+' San Francisco-Spring-20',ha='left',va='center',fontsize=20)
+    plt.figtext(x=0.82, y=0.47 ,s=r'$(\textbf{J})$'+' Performance',ha='left',va='center',fontsize=20)
 
     plt.tight_layout()
 
