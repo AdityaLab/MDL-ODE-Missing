@@ -1,0 +1,26 @@
+X,date,county,state,fips,cases,deaths
+30,2020-04-04,South Florida,Florida,12011,6101,101
+31,2020-04-05,South Florida,Florida,12011,6696,117
+32,2020-04-06,South Florida,Florida,12011,7299,134
+33,2020-04-07,South Florida,Florida,12011,7909,152
+34,2020-04-08,South Florida,Florida,12011,8511,172
+35,2020-04-09,South Florida,Florida,12011,9101,193
+36,2020-04-10,South Florida,Florida,12011,9668,216
+37,2020-04-11,South Florida,Florida,12011,10245,239
+38,2020-04-12,South Florida,Florida,12011,10822,261
+39,2020-04-13,South Florida,Florida,12011,11375,283
+40,2020-04-14,South Florida,Florida,12011,11913,305
+41,2020-04-15,South Florida,Florida,12011,12452,328
+42,2020-04-16,South Florida,Florida,12011,12961,349
+43,2020-04-17,South Florida,Florida,12011,13476,374
+44,2020-04-18,South Florida,Florida,12011,13981,399
+45,2020-04-19,South Florida,Florida,12011,14458,425
+46,2020-04-20,South Florida,Florida,12011,14921,450
+47,2020-04-21,South Florida,Florida,12011,15382,472
+48,2020-04-22,South Florida,Florida,12011,15836,495
+49,2020-04-23,South Florida,Florida,12011,16273,516
+50,2020-04-24,South Florida,Florida,12011,16660,538
+51,2020-04-25,South Florida,Florida,12011,17061,561
+52,2020-04-26,South Florida,Florida,12011,17455,585
+53,2020-04-27,South Florida,Florida,12011,17831,606
+54,2020-04-28,South Florida,Florida,12011,18210,627
