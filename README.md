@@ -1,4 +1,4 @@
-# MDLINFER: Information Theoretic Model Selection for Accurately Estimating Unreported COVID-19 Infections
+# MDLINFER: Accurately Estimating Total COVID-19 Infections using Information Theory
 
 This code showcases that the optimal parameterization identified by our MDL framework MDLINFER is superior to baseline parameterization in (A) estimating total infections, (B) future projections on reported infections, and (C) predicting COVID-19 symptomatic rate trends. 
 
